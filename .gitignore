@@ -1,0 +1,42 @@
+eth-bench/contracts/precompiled/
+eth-bench/results/
+eth-bench/testnet/
+eth-bench/results_eth.txt
+eth-bench/chat.json
+eth-bench/host.log
+eth-bench/bench.log
+eth-bench/testnet/
+eth-bench/era1/
+
+sui-bench/results/
+sui-bench/scripts/results/
+sui-bench/scripts/logs/
+sui-bench/logs/
+
+f2fs-tools-fdp/
+
+# Binaries
+sui-bench/scripts/bench
+sui-bench/scripts/fdp_stats
+*.log
+
+# cargo build artifacts
+sui-bench/target/
+sui-bench/.package_id
+Cargo.lock
+
+# Move build artifacts
+sui-bench/move/*/build/
+sui-bench/Move.lock
+sui-bench/*.localnet.toml
+sui-bench/*.devnet.toml
+sui-bench/*.testnet.toml
+
+# Editor and OS
+.DS_Store
+*.swp
+*~
+
+# Temporary files
+*.tmp
+chat.json

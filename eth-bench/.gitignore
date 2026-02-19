@@ -1,0 +1,10 @@
+*.log
+contracts/precompiled/
+results/
+testnet/
+results_eth.txt
+chat.json
+host.log
+bench.log
+testnet/
+era1/
