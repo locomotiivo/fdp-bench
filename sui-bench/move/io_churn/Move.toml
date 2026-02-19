@@ -1,0 +1,9 @@
+[package]
+name = "io_churn"
+edition = "2024.beta"
+
+# Use implicit dependencies (std and sui are included automatically)
+# No need to specify Sui dependency explicitly
+
+[environments]
+localnet = "722c6691"
