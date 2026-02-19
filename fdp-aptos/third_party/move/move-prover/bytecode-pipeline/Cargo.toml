@@ -1,0 +1,28 @@
+[package]
+name = "move-prover-bytecode-pipeline"
+version = "0.1.0"
+authors = ["Aptos Labs <opensource@aptoslabs.com>"]
+publish = false
+edition = { workspace = true }
+license = "Apache-2.0"
+
+[dependencies]
+anyhow = { workspace = true }
+codespan-reporting = { workspace = true }
+itertools = { workspace = true }
+move-binary-format = { workspace = true }
+move-core-types = { workspace = true }
+move-model = { workspace = true }
+move-stackless-bytecode = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+
+[dev-dependencies]
+datatest-stable = { workspace = true }
+move-stackless-bytecode-test-utils = { workspace = true }
+shell-words = { workspace = true }
+tempfile = { workspace = true }
+walkdir = { workspace = true }
+
+[[test]]
+name = "testsuite"
+harness = false

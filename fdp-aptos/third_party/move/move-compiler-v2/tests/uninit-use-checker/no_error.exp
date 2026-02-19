@@ -1,0 +1,103 @@
+============ bytecode before first stackless bytecode pipeline ================
+
+[variant baseline]
+fun m::foo($t0: u64, $t1: u64): u64 {
+     var $t2: u64
+     var $t3: u64
+     var $t4: u64
+     var $t5: u64
+     var $t6: u64
+     var $t7: u64
+     var $t8: u64
+     var $t9: u64
+     var $t10: u64
+  0: $t4 := infer($t0)
+  1: $t3 := +($t4, $t1)
+  2: $t6 := infer($t3)
+  3: $t7 := 1
+  4: $t5 := +($t6, $t7)
+  5: $t9 := infer($t5)
+  6: $t10 := 1
+  7: $t8 := +($t9, $t10)
+  8: $t2 := infer($t8)
+  9: return $t2
+}
+
+============ after uninitialized_use_checker: ================
+
+[variant baseline]
+fun m::foo($t0: u64, $t1: u64): u64 {
+     var $t2: u64
+     var $t3: u64
+     var $t4: u64
+     var $t5: u64
+     var $t6: u64
+     var $t7: u64
+     var $t8: u64
+     var $t9: u64
+     var $t10: u64
+     # before: { no: $t2, $t3, $t4, $t5, $t6, $t7, $t8, $t9, $t10 }, after: { no: $t2, $t3, $t5, $t6, $t7, $t8, $t9, $t10 }
+  0: $t4 := infer($t0)
+     # before: { no: $t2, $t3, $t5, $t6, $t7, $t8, $t9, $t10 }, after: { no: $t2, $t5, $t6, $t7, $t8, $t9, $t10 }
+  1: $t3 := +($t4, $t1)
+     # before: { no: $t2, $t5, $t6, $t7, $t8, $t9, $t10 }, after: { no: $t2, $t5, $t7, $t8, $t9, $t10 }
+  2: $t6 := infer($t3)
+     # before: { no: $t2, $t5, $t7, $t8, $t9, $t10 }, after: { no: $t2, $t5, $t8, $t9, $t10 }
+  3: $t7 := 1
+     # before: { no: $t2, $t5, $t8, $t9, $t10 }, after: { no: $t2, $t8, $t9, $t10 }
+  4: $t5 := +($t6, $t7)
+     # before: { no: $t2, $t8, $t9, $t10 }, after: { no: $t2, $t8, $t10 }
+  5: $t9 := infer($t5)
+     # before: { no: $t2, $t8, $t10 }, after: { no: $t2, $t8 }
+  6: $t10 := 1
+     # before: { no: $t2, $t8 }, after: { no: $t2 }
+  7: $t8 := +($t9, $t10)
+     # before: { no: $t2 }, after: all initialized
+  8: $t2 := infer($t8)
+     # before: all initialized, after: all initialized
+  9: return $t2
+}
+
+============ bytecode before second stackless bytecode pipeline ================
+
+[variant baseline]
+fun m::foo($t0: u64, $t1: u64): u64 {
+     var $t2: u64
+     var $t3: u64
+     var $t4: u64
+     var $t5: u64
+     var $t6: u64
+     var $t7: u64
+     var $t8: u64
+     var $t9: u64
+     var $t10: u64
+  0: $t4 := infer($t0)
+  1: $t3 := +($t4, $t1)
+  2: $t6 := infer($t3)
+  3: $t7 := 1
+  4: $t5 := +($t6, $t7)
+  5: $t9 := infer($t5)
+  6: $t10 := 1
+  7: $t8 := +($t9, $t10)
+  8: $t2 := infer($t8)
+  9: return $t2
+}
+
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0xc0::m
+// Function definition at index 0
+fun foo(l0: u64, l1: u64): u64
+    move_loc l0
+    move_loc l1
+    add
+    ld_u64 1
+    add
+    // @5
+    ld_u64 1
+    add
+    ret
+
+
+============ bytecode verification succeeded ========

@@ -1,0 +1,86 @@
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0x42::m
+enum Data has drop
+  V1
+    x: u64
+  V2
+    x: u64
+    y: bool
+  V3
+
+// Function definition at index 0
+fun test_v1(): bool
+    local l0: Data
+    ld_u64 43
+    pack_variant Data, V1
+    st_loc l0
+    borrow_loc l0
+    test_variant Data, V1
+    // @5
+    ret
+
+// Function definition at index 1
+fun test_v1v3(): bool
+    local l0: Data
+    local l1: &Data
+    local l2: bool
+    local l3: Data
+    local l4: &Data
+    local l5: bool
+    ld_u64 43
+    pack_variant Data, V1
+    st_loc l0
+    borrow_loc l0
+    st_loc l1
+    // @5
+    copy_loc l1
+    test_variant Data, V1
+    st_loc l2
+    copy_loc l2
+    br_false l0
+    // @10
+    move_loc l1
+    pop
+    branch l1
+l0: move_loc l1
+    test_variant Data, V3
+    // @15
+    st_loc l2
+    copy_loc l2
+    br_false l1
+    branch l1
+l1: pack_variant Data, V3
+    // @20
+    st_loc l3
+    move_loc l2
+    br_false l2
+    borrow_loc l3
+    st_loc l4
+    // @25
+    copy_loc l4
+    test_variant Data, V1
+    st_loc l5
+    copy_loc l5
+    br_false l3
+    // @30
+    move_loc l4
+    pop
+    branch l4
+l3: move_loc l4
+    test_variant Data, V3
+    // @35
+    st_loc l5
+    copy_loc l5
+    br_false l4
+    branch l4
+l4: branch l5
+    // @40
+l2: ld_false
+    st_loc l5
+l5: move_loc l5
+    ret
+
+
+============ bytecode verification succeeded ========

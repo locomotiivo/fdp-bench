@@ -1,0 +1,25 @@
+processed 3 tasks
+task 0 lines 1-9:  run [main() {]
+Error: Script execution failed with VMError: {
+    major_status: VECTOR_OPERATION_ERROR,
+    sub_status: Some(3),
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 4)],
+}
+task 1 lines 11-19:  run [main() {]
+Error: Script execution failed with VMError: {
+    major_status: VECTOR_OPERATION_ERROR,
+    sub_status: Some(3),
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 5)],
+}
+task 2 lines 21-30:  run [main() {]
+Error: Script execution failed with VMError: {
+    major_status: VECTOR_OPERATION_ERROR,
+    sub_status: Some(3),
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 7)],
+}

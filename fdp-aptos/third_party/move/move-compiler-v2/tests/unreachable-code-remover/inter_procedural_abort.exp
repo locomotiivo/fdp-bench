@@ -1,0 +1,139 @@
+============ bytecode before first stackless bytecode pipeline ================
+
+[variant baseline]
+fun m::always_abort() {
+     var $t0: u64
+  0: $t0 := 0
+  1: abort($t0)
+  2: return ()
+}
+
+
+[variant baseline]
+fun m::test(): u64 {
+     var $t0: u64
+     var $t1: u64
+     var $t2: u64
+     var $t3: u64
+     var $t4: u64
+  0: m::always_abort()
+  1: $t1 := 0
+  2: $t3 := infer($t1)
+  3: $t4 := 1
+  4: $t2 := +($t3, $t4)
+  5: $t1 := infer($t2)
+  6: $t0 := infer($t1)
+  7: return $t0
+}
+
+============ bytecode before second stackless bytecode pipeline ================
+
+[variant baseline]
+fun m::always_abort() {
+     var $t0: u64
+  0: $t0 := 0
+  1: abort($t0)
+  2: return ()
+}
+
+
+[variant baseline]
+fun m::test(): u64 {
+     var $t0: u64
+     var $t1: u64
+     var $t2: u64
+     var $t3: u64
+     var $t4: u64
+  0: m::always_abort()
+  1: $t1 := 0
+  2: $t3 := infer($t1)
+  3: $t4 := 1
+  4: $t2 := +($t3, $t4)
+  5: $t1 := infer($t2)
+  6: $t0 := infer($t1)
+  7: return $t0
+}
+
+============ after UnreachableCodeProcessor: ================
+
+[variant baseline]
+fun m::always_abort() {
+     var $t0: u64
+     # maybe
+  0: $t0 := 0
+     # maybe
+  1: abort($t0)
+}
+
+
+[variant baseline]
+fun m::test(): u64 {
+     var $t0: u64
+     var $t1: u64
+     var $t2: u64
+     var $t3: u64
+     var $t4: u64
+     # maybe
+  0: m::always_abort()
+     # maybe
+  1: $t1 := 0
+     # maybe
+  2: $t3 := move($t1)
+     # maybe
+  3: $t4 := 1
+     # maybe
+  4: $t2 := +($t3, $t4)
+     # maybe
+  5: $t1 := move($t2)
+     # maybe
+  6: $t0 := move($t1)
+     # maybe
+  7: return $t0
+}
+
+============ after UnreachableCodeRemover: ================
+
+[variant baseline]
+fun m::always_abort() {
+     var $t0: u64
+  0: $t0 := 0
+  1: abort($t0)
+}
+
+
+[variant baseline]
+fun m::test(): u64 {
+     var $t0: u64
+     var $t1: u64
+     var $t2: u64
+     var $t3: u64
+     var $t4: u64
+  0: m::always_abort()
+  1: $t1 := 0
+  2: $t3 := move($t1)
+  3: $t4 := 1
+  4: $t2 := +($t3, $t4)
+  5: $t1 := move($t2)
+  6: $t0 := move($t1)
+  7: return $t0
+}
+
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0xc0ffee::m
+// Function definition at index 0
+fun always_abort()
+    ld_u64 0
+    abort
+
+// Function definition at index 1
+fun test(): u64
+    call always_abort
+    ld_u64 0
+    ld_u64 1
+    add
+    ret
+
+
+============ bytecode verification succeeded ========

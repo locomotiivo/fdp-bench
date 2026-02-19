@@ -1,0 +1,56 @@
+// -- Model dump before first bytecode pipeline
+module 0x42::vector {
+    private fun create(): vector<u64> {
+        Vector<u64>(1, 2, 3)
+    }
+} // end 0x42::vector
+
+// -- Sourcified model before first bytecode pipeline
+module 0x42::vector {
+    fun create(): vector<u64> {
+        vector[1, 2, 3]
+    }
+}
+
+============ bytecode before first stackless bytecode pipeline ================
+
+[variant baseline]
+fun vector::create(): vector<u64> {
+     var $t0: vector<u64>
+     var $t1: u64
+     var $t2: u64
+     var $t3: u64
+  0: $t1 := 1
+  1: $t2 := 2
+  2: $t3 := 3
+  3: $t0 := vector($t1, $t2, $t3)
+  4: return $t0
+}
+
+// -- Model dump before second bytecode pipeline
+module 0x42::vector {
+    private fun create(): vector<u64> {
+        [Number(1), Number(2), Number(3)]
+    }
+} // end 0x42::vector
+
+============ bytecode before second stackless bytecode pipeline ================
+
+[variant baseline]
+fun vector::create(): vector<u64> {
+     var $t0: vector<u64>
+  0: $t0 := ["1", "2", "3"]
+  1: return $t0
+}
+
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0x42::vector
+// Function definition at index 0
+fun create(): vector<u64>
+    ld_const<vector<u64>> [1, 2, 3]
+    ret
+
+
+============ bytecode verification succeeded ========

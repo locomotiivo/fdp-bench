@@ -1,0 +1,67 @@
+============ after FlushWritesProcessor: ================
+
+[variant baseline]
+fun m::foo($t0: u64): u64 {
+     var $t1: u64 [unused]
+     var $t2: u64 [unused]
+     var $t3: u64
+     # live vars: $t0
+  0: $t0 := move($t0)
+     # live vars: $t0
+  1: $t3 := 1
+     # live vars: $t0, $t3
+  2: $t0 := +($t0, $t3)
+     # live vars: $t0
+  3: return $t0
+}
+
+
+[variant baseline]
+fun m::one(): u64 {
+     var $t0: u64
+     # live vars:
+  0: $t0 := 1
+     # live vars: $t0
+  1: return $t0
+}
+
+
+[variant baseline]
+public fun m::test(): u64 {
+     var $t0: u64 [unused]
+     var $t1: u64
+     var $t2: u64
+     # live vars:
+  0: $t1 := m::one()
+     # live vars: $t1
+  1: $t2 := m::foo($t1)
+     # live vars: $t2
+  2: $t1 := move($t2)
+     # live vars: $t1
+  3: return $t1
+}
+
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0xc0ffee::m
+// Function definition at index 0
+fun foo(l0: u64): u64
+    move_loc l0
+    ld_u64 1
+    add
+    ret
+
+// Function definition at index 1
+fun one(): u64
+    ld_u64 1
+    ret
+
+// Function definition at index 2
+#[persistent] public fun test(): u64
+    call one
+    call foo
+    ret
+
+
+============ bytecode verification succeeded ========

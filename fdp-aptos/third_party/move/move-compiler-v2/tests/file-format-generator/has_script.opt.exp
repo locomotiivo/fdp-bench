@@ -1,0 +1,12 @@
+
+============ disassembled file-format ==================
+// Bytecode version v9
+script
+// Function definition at index 0
+entry public fun main()
+    ret
+    ld_u64 1
+    abort
+
+
+============ bytecode verification succeeded ========

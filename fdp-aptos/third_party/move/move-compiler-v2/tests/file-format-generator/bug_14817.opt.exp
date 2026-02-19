@@ -1,0 +1,28 @@
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0xcafe::Module0
+struct S
+  x: bool
+
+// Function definition at index 0
+#[persistent] public fun f(): S
+    local l0: S
+    local l1: bool
+    ld_false
+    pack S
+    st_loc l0
+    ld_true
+    borrow_loc l0
+    // @5
+    borrow_field S, x
+    read_ref
+    st_loc l1
+    mut_borrow_loc l1
+    write_ref
+    // @10
+    move_loc l0
+    ret
+
+
+============ bytecode verification succeeded ========

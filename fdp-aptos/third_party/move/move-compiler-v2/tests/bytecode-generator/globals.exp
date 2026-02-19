@@ -1,0 +1,239 @@
+// -- Model dump before first bytecode pipeline
+module 0x42::globals {
+    struct R {
+        f: u64,
+    }
+    private fun check(a: address): bool {
+        exists<R>(a)
+    }
+    private fun publish(s: &signer) {
+        MoveTo<R>(s, pack globals::R(1));
+        Tuple()
+    }
+    private fun read(a: address): u64
+        acquires R(*)
+     {
+        {
+          let r: &R = BorrowGlobal(Immutable)<R>(a);
+          select globals::R.f<&R>(r)
+        }
+    }
+    private fun write(a: address,x: u64): u64
+        acquires R(*)
+     {
+        {
+          let r: &mut R = BorrowGlobal(Mutable)<R>(a);
+          select globals::R.f<&mut R>(r) = 2;
+          9
+        }
+    }
+} // end 0x42::globals
+
+// -- Sourcified model before first bytecode pipeline
+module 0x42::globals {
+    struct R has store, key {
+        f: u64,
+    }
+    fun check(a: address): bool {
+        exists<R>(a)
+    }
+    fun publish(s: &signer) {
+        move_to<R>(s, R{f: 1});
+    }
+    fun read(a: address): u64
+        acquires R
+    {
+        let r = borrow_global<R>(a);
+        r.f
+    }
+    fun write(a: address, x: u64): u64
+        acquires R
+    {
+        let r = borrow_global_mut<R>(a);
+        r.f = 2;
+        9
+    }
+}
+
+============ bytecode before first stackless bytecode pipeline ================
+
+[variant baseline]
+fun globals::check($t0: address): bool {
+     var $t1: bool
+  0: $t1 := exists<0x42::globals::R>($t0)
+  1: return $t1
+}
+
+
+[variant baseline]
+fun globals::publish($t0: &signer) {
+     var $t1: &signer
+     var $t2: 0x42::globals::R
+     var $t3: u64
+  0: $t1 := infer($t0)
+  1: $t3 := 1
+  2: $t2 := pack 0x42::globals::R($t3)
+  3: move_to<0x42::globals::R>($t1, $t2)
+  4: return ()
+}
+
+
+[variant baseline]
+fun globals::read($t0: address): u64 {
+     var $t1: u64
+     var $t2: &0x42::globals::R
+     var $t3: &u64
+  0: $t2 := borrow_global<0x42::globals::R>($t0)
+  1: $t3 := borrow_field<0x42::globals::R>.f($t2)
+  2: $t1 := read_ref($t3)
+  3: return $t1
+}
+
+
+[variant baseline]
+fun globals::write($t0: address, $t1: u64): u64 {
+     var $t2: u64
+     var $t3: &mut 0x42::globals::R
+     var $t4: u64
+     var $t5: &mut u64
+  0: $t3 := borrow_global<0x42::globals::R>($t0)
+  1: $t4 := 2
+  2: $t5 := borrow_field<0x42::globals::R>.f($t3)
+  3: write_ref($t5, $t4)
+  4: $t2 := 9
+  5: return $t2
+}
+
+
+Diagnostics:
+warning: Unused value of parameter `x`. Consider removing the parameter, or prefixing with an underscore (e.g., `_x`), or binding to `_`
+   ┌─ tests/bytecode-generator/globals.move:18:27
+   │
+18 │     fun write(a: address, x: u64): u64 acquires R {
+   │                           ^
+
+// -- Model dump before second bytecode pipeline
+module 0x42::globals {
+    struct R {
+        f: u64,
+    }
+    private fun check(a: address): bool {
+        exists<R>(a)
+    }
+    private fun publish(s: &signer) {
+        MoveTo<R>(s, pack globals::R(1));
+        Tuple()
+    }
+    private fun read(a: address): u64
+        acquires R(*)
+     {
+        {
+          let r: &R = BorrowGlobal(Immutable)<R>(a);
+          select globals::R.f<&R>(r)
+        }
+    }
+    private fun write(a: address,x: u64): u64
+        acquires R(*)
+     {
+        {
+          let r: &mut R = BorrowGlobal(Mutable)<R>(a);
+          select globals::R.f<&mut R>(r) = 2;
+          9
+        }
+    }
+} // end 0x42::globals
+
+============ bytecode before second stackless bytecode pipeline ================
+
+[variant baseline]
+fun globals::check($t0: address): bool {
+     var $t1: bool
+  0: $t1 := exists<0x42::globals::R>($t0)
+  1: return $t1
+}
+
+
+[variant baseline]
+fun globals::publish($t0: &signer) {
+     var $t1: &signer
+     var $t2: 0x42::globals::R
+     var $t3: u64
+  0: $t1 := infer($t0)
+  1: $t3 := 1
+  2: $t2 := pack 0x42::globals::R($t3)
+  3: move_to<0x42::globals::R>($t1, $t2)
+  4: return ()
+}
+
+
+[variant baseline]
+fun globals::read($t0: address): u64 {
+     var $t1: u64
+     var $t2: &0x42::globals::R
+     var $t3: &u64
+  0: $t2 := borrow_global<0x42::globals::R>($t0)
+  1: $t3 := borrow_field<0x42::globals::R>.f($t2)
+  2: $t1 := read_ref($t3)
+  3: return $t1
+}
+
+
+[variant baseline]
+fun globals::write($t0: address, $t1: u64): u64 {
+     var $t2: u64
+     var $t3: &mut 0x42::globals::R
+     var $t4: u64
+     var $t5: &mut u64
+  0: $t3 := borrow_global<0x42::globals::R>($t0)
+  1: $t4 := 2
+  2: $t5 := borrow_field<0x42::globals::R>.f($t3)
+  3: write_ref($t5, $t4)
+  4: $t2 := 9
+  5: return $t2
+}
+
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0x42::globals
+struct R has store + key
+  f: u64
+
+// Function definition at index 0
+fun check(l0: address): bool
+    move_loc l0
+    exists R
+    ret
+
+// Function definition at index 1
+fun publish(l0: &signer)
+    move_loc l0
+    ld_u64 1
+    pack R
+    move_to R
+    ret
+
+// Function definition at index 2
+fun read(l0: address): u64 acquires R
+    move_loc l0
+    borrow_global R
+    borrow_field R, f
+    read_ref
+    ret
+
+// Function definition at index 3
+fun write(l0: address, l1: u64): u64 acquires R
+    local l2: &mut R
+    move_loc l0
+    mut_borrow_global R
+    st_loc l2
+    ld_u64 2
+    move_loc l2
+    // @5
+    mut_borrow_field R, f
+    write_ref
+    ld_u64 9
+    ret
+
+
+============ bytecode verification succeeded ========

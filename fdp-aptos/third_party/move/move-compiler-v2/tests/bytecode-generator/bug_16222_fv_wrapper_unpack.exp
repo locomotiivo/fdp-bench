@@ -1,0 +1,334 @@
+// -- Model dump before first bytecode pipeline
+module 0xc0ffee::m {
+    struct Lazy {
+        0: || has drop,
+    }
+    public fun make_lazy(): Lazy {
+        pack m::Lazy(closure#0m::__lambda__1__make_lazy())
+    }
+    private fun __lambda__1__make_lazy() {
+        Tuple()
+    }
+} // end 0xc0ffee::m
+module 0xc0ffee::m_friend {
+    struct Lazy {
+        0: || has drop,
+    }
+    public fun make_lazy(): Lazy {
+        pack m_friend::Lazy(closure#0m_friend::__lambda__1__make_lazy())
+    }
+    private fun __lambda__1__make_lazy() {
+        Tuple()
+    }
+} // end 0xc0ffee::m_friend
+module 0xc0ffee::n {
+    public fun test() {
+        {
+          let l: m::Lazy = m::make_lazy();
+          (l)();
+          Tuple()
+        }
+    }
+    public fun test_friend() {
+        {
+          let l: m_friend::Lazy = m_friend::make_lazy();
+          (l)();
+          Tuple()
+        }
+    }
+} // end 0xc0ffee::n
+
+// -- Sourcified model before first bytecode pipeline
+module 0xc0ffee::m {
+    friend 0xc0ffee::n;
+    struct Lazy has drop {
+        0: || has drop,
+    }
+    public fun make_lazy(): Lazy {
+        Lazy(|| lambda__1__make_lazy())
+    }
+    fun lambda__1__make_lazy() {
+    }
+}
+module 0xc0ffee::m_friend {
+    friend 0xc0ffee::n;
+    struct Lazy has drop {
+        0: || has drop,
+    }
+    public fun make_lazy(): Lazy {
+        Lazy(|| lambda__1__make_lazy())
+    }
+    fun lambda__1__make_lazy() {
+    }
+}
+module 0xc0ffee::n {
+    public fun test() {
+        let l = 0xc0ffee::m::make_lazy();
+        l();
+    }
+    public fun test_friend() {
+        let l = 0xc0ffee::m_friend::make_lazy();
+        l();
+    }
+}
+
+============ bytecode before first stackless bytecode pipeline ================
+
+[variant baseline]
+public fun m::make_lazy(): 0xc0ffee::m::Lazy {
+     var $t0: 0xc0ffee::m::Lazy
+     var $t1: || has drop
+  0: $t1 := closure#0 m::__lambda__1__make_lazy()
+  1: $t0 := pack 0xc0ffee::m::Lazy($t1)
+  2: return $t0
+}
+
+
+[variant baseline]
+fun m::__lambda__1__make_lazy() {
+  0: return ()
+}
+
+
+[variant baseline]
+public fun m_friend::make_lazy(): 0xc0ffee::m_friend::Lazy {
+     var $t0: 0xc0ffee::m_friend::Lazy
+     var $t1: || has drop
+  0: $t1 := closure#0 m_friend::__lambda__1__make_lazy()
+  1: $t0 := pack 0xc0ffee::m_friend::Lazy($t1)
+  2: return $t0
+}
+
+
+[variant baseline]
+fun m_friend::__lambda__1__make_lazy() {
+  0: return ()
+}
+
+
+[variant baseline]
+public fun n::test() {
+     var $t0: 0xc0ffee::m::Lazy
+     var $t1: || has drop
+  0: $t0 := m::make_lazy()
+  1: $t1 := unpack 0xc0ffee::m::Lazy($t0)
+  2: invoke($t1)
+  3: return ()
+}
+
+
+[variant baseline]
+public fun n::test_friend() {
+     var $t0: 0xc0ffee::m_friend::Lazy
+     var $t1: || has drop
+  0: $t0 := m_friend::make_lazy()
+  1: $t1 := unpack 0xc0ffee::m_friend::Lazy($t0)
+  2: invoke($t1)
+  3: return ()
+}
+
+// -- Model dump before second bytecode pipeline
+module 0xc0ffee::m {
+    struct Lazy {
+        0: || has drop,
+    }
+    public fun make_lazy(): Lazy {
+        pack m::Lazy(closure#0m::__lambda__1__make_lazy())
+    }
+    private fun __lambda__1__make_lazy() {
+        Tuple()
+    }
+} // end 0xc0ffee::m
+module 0xc0ffee::m_friend {
+    struct Lazy {
+        0: || has drop,
+    }
+    public fun make_lazy(): Lazy {
+        pack m_friend::Lazy(closure#0m_friend::__lambda__1__make_lazy())
+    }
+    private fun __lambda__1__make_lazy() {
+        Tuple()
+    }
+} // end 0xc0ffee::m_friend
+module 0xc0ffee::n {
+    public fun test() {
+        {
+          let l: m::Lazy = m::make_lazy();
+          (l)();
+          Tuple()
+        }
+    }
+    public fun test_friend() {
+        {
+          let l: m_friend::Lazy = m_friend::make_lazy();
+          (l)();
+          Tuple()
+        }
+    }
+} // end 0xc0ffee::n
+
+============ bytecode before second stackless bytecode pipeline ================
+
+[variant baseline]
+public fun m::make_lazy(): 0xc0ffee::m::Lazy {
+     var $t0: 0xc0ffee::m::Lazy
+     var $t1: || has drop
+  0: $t1 := closure#0 m::__lambda__1__make_lazy()
+  1: $t0 := pack 0xc0ffee::m::Lazy($t1)
+  2: return $t0
+}
+
+
+[variant baseline]
+fun m::__lambda__1__make_lazy() {
+  0: return ()
+}
+
+
+[variant baseline]
+public fun m_friend::make_lazy(): 0xc0ffee::m_friend::Lazy {
+     var $t0: 0xc0ffee::m_friend::Lazy
+     var $t1: || has drop
+  0: $t1 := closure#0 m_friend::__lambda__1__make_lazy()
+  1: $t0 := pack 0xc0ffee::m_friend::Lazy($t1)
+  2: return $t0
+}
+
+
+[variant baseline]
+fun m_friend::__lambda__1__make_lazy() {
+  0: return ()
+}
+
+
+[variant baseline]
+public fun n::test() {
+     var $t0: 0xc0ffee::m::Lazy
+     var $t1: || has drop
+  0: $t0 := m::make_lazy()
+  1: $t1 := unpack 0xc0ffee::m::Lazy($t0)
+  2: invoke($t1)
+  3: return ()
+}
+
+
+[variant baseline]
+public fun n::test_friend() {
+     var $t0: 0xc0ffee::m_friend::Lazy
+     var $t1: || has drop
+  0: $t0 := m_friend::make_lazy()
+  1: $t1 := unpack 0xc0ffee::m_friend::Lazy($t0)
+  2: invoke($t1)
+  3: return ()
+}
+
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0xc0ffee::m
+friend 0xc0ffee::n
+struct Lazy has drop
+  _0: || has drop
+
+// Function definition at index 0
+friend fun pack$Lazy(l0: || has drop): Lazy
+    local l1: || has drop
+    move_loc l0
+    pack Lazy
+    ret
+
+// Function definition at index 1
+friend fun unpack$Lazy(l0: Lazy): || has drop
+    local l1: Lazy
+    move_loc l0
+    unpack Lazy
+    ret
+
+// Function definition at index 2
+friend fun borrow$Lazy$0(l0: &Lazy): &|| has drop
+    local l1: &Lazy
+    move_loc l0
+    borrow_field Lazy, _0
+    ret
+
+// Function definition at index 3
+friend fun borrow_mut$Lazy$0(l0: &mut Lazy): &mut || has drop
+    local l1: &mut Lazy
+    move_loc l0
+    mut_borrow_field Lazy, _0
+    ret
+
+// Function definition at index 4
+#[persistent] public fun make_lazy(): Lazy
+    pack_closure __lambda__1__make_lazy, 0
+    pack Lazy
+    ret
+
+// Function definition at index 5
+fun __lambda__1__make_lazy()
+    ret
+
+// Bytecode version v9
+module 0xc0ffee::m_friend
+friend 0xc0ffee::n
+struct Lazy has drop
+  _0: || has drop
+
+// Function definition at index 0
+friend fun pack$Lazy(l0: || has drop): Lazy
+    local l1: || has drop
+    move_loc l0
+    pack Lazy
+    ret
+
+// Function definition at index 1
+friend fun unpack$Lazy(l0: Lazy): || has drop
+    local l1: Lazy
+    move_loc l0
+    unpack Lazy
+    ret
+
+// Function definition at index 2
+friend fun borrow$Lazy$0(l0: &Lazy): &|| has drop
+    local l1: &Lazy
+    move_loc l0
+    borrow_field Lazy, _0
+    ret
+
+// Function definition at index 3
+friend fun borrow_mut$Lazy$0(l0: &mut Lazy): &mut || has drop
+    local l1: &mut Lazy
+    move_loc l0
+    mut_borrow_field Lazy, _0
+    ret
+
+// Function definition at index 4
+#[persistent] public fun make_lazy(): Lazy
+    pack_closure __lambda__1__make_lazy, 0
+    pack Lazy
+    ret
+
+// Function definition at index 5
+fun __lambda__1__make_lazy()
+    ret
+
+// Bytecode version v9
+module 0xc0ffee::n
+use 0xc0ffee::m
+use 0xc0ffee::m_friend
+// Function definition at index 0
+#[persistent] public fun test()
+    call m::make_lazy
+    call m::unpack$Lazy
+    call_closure <|| has drop>
+    ret
+
+// Function definition at index 1
+#[persistent] public fun test_friend()
+    call m_friend::make_lazy
+    call m_friend::unpack$Lazy
+    call_closure <|| has drop>
+    ret
+
+
+============ bytecode verification succeeded ========

@@ -1,0 +1,46 @@
+// Copyright (c) Aptos Foundation
+// Licensed pursuant to the Innovation-Enabling Source Code License, available at https://github.com/aptos-labs/aptos-core/blob/main/LICENSE
+
+//! This module defines physical storage schema for consensus quorum certificate (of a block).
+//!
+//! Serialized quorum certificate bytes identified by block_hash.
+//! ```text
+//! |<---key---->|<----value--->|
+//! | block_hash |  QuorumCert  |
+//! ```
+
+use crate::define_schema;
+use anyhow::Result;
+use aptos_consensus_types::quorum_cert::QuorumCert;
+use aptos_crypto::HashValue;
+use aptos_schemadb::{
+    schema::{KeyCodec, ValueCodec},
+    ColumnFamilyName,
+};
+
+pub const QC_CF_NAME: ColumnFamilyName = "quorum_certificate";
+
+define_schema!(QCSchema, HashValue, QuorumCert, QC_CF_NAME);
+
+impl KeyCodec<QCSchema> for HashValue {
+    fn encode_key(&self) -> Result<Vec<u8>> {
+        Ok(self.to_vec())
+    }
+
+    fn decode_key(data: &[u8]) -> Result<Self> {
+        Ok(HashValue::from_slice(data)?)
+    }
+}
+
+impl ValueCodec<QCSchema> for QuorumCert {
+    fn encode_value(&self) -> Result<Vec<u8>> {
+        Ok(bcs::to_bytes(self)?)
+    }
+
+    fn decode_value(data: &[u8]) -> Result<Self> {
+        Ok(bcs::from_bytes(data)?)
+    }
+}
+
+#[cfg(test)]
+mod test;

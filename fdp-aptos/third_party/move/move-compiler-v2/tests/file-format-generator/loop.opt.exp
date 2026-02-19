@@ -1,0 +1,77 @@
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0x42::loops
+// Function definition at index 0
+fun nested_loop(l0: u64): u64
+l3: copy_loc l0
+    ld_u64 0
+    gt
+    br_false l0
+    copy_loc l0
+    // @5
+    ld_u64 10
+    gt
+    br_true l1
+    branch l2
+l1: move_loc l0
+    // @10
+    ld_u64 1
+    sub
+    st_loc l0
+l2: move_loc l0
+    ld_u64 1
+    // @15
+    sub
+    st_loc l0
+    branch l3
+l0: move_loc l0
+    ret
+
+// Function definition at index 1
+fun while_loop(l0: u64): u64
+l1: copy_loc l0
+    ld_u64 0
+    gt
+    br_false l0
+    move_loc l0
+    // @5
+    ld_u64 1
+    sub
+    st_loc l0
+    branch l1
+l0: move_loc l0
+    // @10
+    ret
+
+// Function definition at index 2
+fun while_loop_with_break_and_continue(l0: u64): u64
+l4: copy_loc l0
+    ld_u64 0
+    gt
+    br_true l0
+    branch l1
+    // @5
+l0: copy_loc l0
+    ld_u64 42
+    eq
+    br_false l2
+    branch l1
+    // @10
+l1: move_loc l0
+    ret
+l2: copy_loc l0
+    ld_u64 21
+    eq
+    // @15
+    br_false l3
+    branch l4
+l3: move_loc l0
+    ld_u64 1
+    sub
+    // @20
+    st_loc l0
+    branch l4
+
+
+============ bytecode verification succeeded ========

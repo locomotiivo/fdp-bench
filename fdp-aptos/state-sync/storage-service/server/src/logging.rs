@@ -1,0 +1,52 @@
+// Copyright (c) Aptos Foundation
+// Licensed pursuant to the Innovation-Enabling Source Code License, available at https://github.com/aptos-labs/aptos-core/blob/main/LICENSE
+
+use crate::Error;
+use aptos_config::network_id::PeerNetworkId;
+use aptos_logger::Schema;
+use aptos_storage_service_types::requests::StorageServiceRequest;
+use serde::Serialize;
+
+#[derive(Schema)]
+pub struct LogSchema<'a> {
+    name: LogEntry,
+    error: Option<&'a Error>,
+    message: Option<&'a str>,
+    optimistic_fetch_related: Option<bool>,
+    peer_network_id: Option<&'a PeerNetworkId>,
+    response: Option<&'a str>,
+    request: Option<&'a StorageServiceRequest>,
+}
+
+impl LogSchema<'_> {
+    pub fn new(name: LogEntry) -> Self {
+        Self {
+            name,
+            error: None,
+            message: None,
+            optimistic_fetch_related: None,
+            peer_network_id: None,
+            response: None,
+            request: None,
+        }
+    }
+}
+
+#[derive(Clone, Copy, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum LogEntry {
+    OptimisticFetchRefresh,
+    OptimisticFetchRequest,
+    OptimisticFetchResponse,
+    ReceivedCacheUpdateNotification,
+    ReceivedCommitNotification,
+    ReceivedStorageRequest,
+    RequestModeratorIgnoredPeer,
+    RequestModeratorRefresh,
+    SentStorageResponse,
+    StorageServiceError,
+    StorageSummaryRefresh,
+    SubscriptionRefresh,
+    SubscriptionRequest,
+    SubscriptionResponse,
+}

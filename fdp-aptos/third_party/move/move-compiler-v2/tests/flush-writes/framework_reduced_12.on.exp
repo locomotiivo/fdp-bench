@@ -1,0 +1,264 @@
+============ after FlushWritesProcessor: ================
+
+[variant baseline]
+fun m::bytes($t0: &u64): vector<u8> {
+     var $t1: vector<u8>
+     # live vars: $t0
+  0: $t1 := ["1", "2"]
+     # live vars: $t0, $t1
+  1: drop($t0)
+     # live vars: $t1
+  2: return $t1
+}
+
+
+[variant baseline]
+fun m::cons_2($t0: u64, $t1: &mut u64): u64 {
+     var $t2: u64 [unused]
+     # live vars: $t0, $t1
+  0: drop($t1)
+     # live vars: $t0
+  1: return $t0
+}
+
+
+[variant baseline]
+fun m::cons_2_another($t0: &u64, $t1: u64) {
+     # live vars: $t0, $t1
+  0: drop($t0)
+     # live vars:
+  1: return ()
+}
+
+
+[variant baseline]
+fun m::cons_7($t0: vector<u8>, $t1: u64, $t2: u64, $t3: u64, $t4: u64, $t5: u64, $t6: u64): u64 {
+     var $t7: u64 [unused]
+     # live vars: $t0, $t1, $t2, $t3, $t4, $t5, $t6
+  0: $t1 := 0
+     # live vars: $t1
+  1: return $t1
+}
+
+
+[variant baseline]
+fun m::id($t0: u64): u64 {
+     var $t1: u64 [unused]
+     # live vars: $t0
+  0: return $t0
+}
+
+
+[variant baseline]
+fun m::one(): u64 {
+     var $t0: u64
+     # live vars:
+  0: $t0 := 1
+     # live vars: $t0
+  1: return $t0
+}
+
+
+[variant baseline]
+fun m::test($t0: u64): u64 {
+     var $t1: u64 [unused]
+     var $t2: u64
+     var $t3: vector<u8>
+     var $t4: &u64
+     var $t5: bool
+     var $t6: u64
+     var $t7: &vector<u8>
+     var $t8: u64
+     var $t9: u64 [unused]
+     var $t10: u64
+     var $t11: u64 [unused]
+     var $t12: u64 [unused]
+     var $t13: &mut u64
+     var $t14: u64 [unused]
+     var $t15: u64 [unused]
+     var $t16: u64 [unused]
+     var $t17: &mut u64 [unused]
+     var $t18: u64 [unused]
+     var $t19: &u64 [unused]
+     var $t20: u64 [unused]
+     var $t21: vector<u8>
+     var $t22: u64
+     var $t23: u64
+     var $t24: u64 [unused]
+     var $t25: u64 [unused]
+     var $t26: u64 [unused]
+     var $t27: u64
+     var $t28: u64 [unused]
+     var $t29: u64
+     # flush: $t2
+     # live vars: $t0
+  0: $t2 := m::id($t0)
+     # live vars: $t0, $t2
+  1: $t4 := borrow_local($t0)
+     # flush: $t3
+     # live vars: $t0, $t2, $t4
+  2: $t3 := m::bytes($t4)
+     # live vars: $t0, $t2, $t3
+  3: $t7 := borrow_local($t3)
+     # live vars: $t0, $t2, $t3, $t7
+  4: $t6 := vector::length<u8>($t7)
+     # live vars: $t0, $t2, $t3, $t6
+  5: $t8 := 2
+     # live vars: $t0, $t2, $t3, $t6, $t8
+  6: $t5 := ==($t6, $t8)
+     # live vars: $t0, $t2, $t3, $t5
+  7: if ($t5) goto 8 else goto 32
+     # live vars: $t0, $t2, $t3
+  8: label L0
+     # flush: $t10
+     # live vars: $t0, $t2, $t3
+  9: $t10 := 0
+     # live vars: $t0, $t2, $t3, $t10
+ 10: $t6 := copy($t0)
+     # live vars: $t0, $t2, $t3, $t6, $t10
+ 11: $t13 := borrow_local($t10)
+     # live vars: $t0, $t2, $t3, $t6, $t10, $t13
+ 12: $t6 := m::cons_2($t6, $t13)
+     # flush: $t6
+     # live vars: $t0, $t2, $t3, $t6, $t10
+ 13: $t6 := m::id($t6)
+     # live vars: $t0, $t2, $t3, $t6, $t10
+ 14: $t8 := move($t0)
+     # live vars: $t2, $t3, $t6, $t8, $t10
+ 15: $t13 := borrow_local($t10)
+     # live vars: $t2, $t3, $t6, $t8, $t10, $t13
+ 16: $t8 := m::cons_2($t8, $t13)
+     # flush: $t8
+     # live vars: $t2, $t3, $t6, $t8, $t10
+ 17: $t8 := m::id($t8)
+     # live vars: $t2, $t3, $t6, $t8, $t10
+ 18: $t4 := borrow_local($t2)
+     # live vars: $t2, $t3, $t4, $t6, $t8, $t10
+ 19: $t21 := move($t3)
+     # live vars: $t2, $t4, $t6, $t8, $t10, $t21
+ 20: $t22 := 0
+     # live vars: $t2, $t4, $t6, $t8, $t10, $t21, $t22
+ 21: $t23 := move($t10)
+     # live vars: $t2, $t4, $t6, $t8, $t21, $t22, $t23
+ 22: $t6 := move($t6)
+     # live vars: $t2, $t4, $t6, $t8, $t21, $t22, $t23
+ 23: $t8 := move($t8)
+     # live vars: $t2, $t4, $t6, $t8, $t21, $t22, $t23
+ 24: $t27 := m::one()
+     # live vars: $t2, $t4, $t6, $t8, $t21, $t22, $t23, $t27
+ 25: $t27 := m::id($t27)
+     # live vars: $t2, $t4, $t6, $t8, $t21, $t22, $t23, $t27
+ 26: $t29 := m::one()
+     # live vars: $t2, $t4, $t6, $t8, $t21, $t22, $t23, $t27, $t29
+ 27: $t29 := m::id($t29)
+     # live vars: $t2, $t4, $t6, $t8, $t21, $t22, $t23, $t27, $t29
+ 28: $t6 := m::cons_7($t21, $t22, $t23, $t6, $t8, $t27, $t29)
+     # live vars: $t2, $t4, $t6
+ 29: m::cons_2_another($t4, $t6)
+     # live vars: $t2
+ 30: $t6 := move($t2)
+     # live vars: $t6
+ 31: return $t6
+     # live vars: $t0, $t2, $t3
+ 32: label L1
+     # live vars:
+ 33: $t6 := 42
+     # live vars: $t6
+ 34: abort($t6)
+}
+
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0xc0ffee::m
+// Function definition at index 0
+fun bytes(l0: &u64): vector<u8>
+    ld_const<vector<u8>> [1, 2]
+    move_loc l0
+    pop
+    ret
+
+// Function definition at index 1
+fun cons_2(l0: u64, l1: &mut u64): u64
+    move_loc l1
+    pop
+    move_loc l0
+    ret
+
+// Function definition at index 2
+fun cons_2_another(l0: &u64, l1: u64)
+    move_loc l0
+    pop
+    ret
+
+// Function definition at index 3
+fun cons_7(l0: vector<u8>, l1: u64, l2: u64, l3: u64, l4: u64, l5: u64, l6: u64): u64
+    ld_u64 0
+    ret
+
+// Function definition at index 4
+fun id(l0: u64): u64
+    move_loc l0
+    ret
+
+// Function definition at index 5
+fun one(): u64
+    ld_u64 1
+    ret
+
+// Function definition at index 6
+fun test(l0: u64): u64
+    local l1: u64
+    local l2: vector<u8>
+    local l3: u64
+    local l4: u64
+    local l5: u64
+    copy_loc l0
+    call id
+    st_loc l1
+    borrow_loc l0
+    call bytes
+    // @5
+    st_loc l2
+    borrow_loc l2
+    vec_len <u8>
+    ld_u64 2
+    eq
+    // @10
+    br_false l0
+    ld_u64 0
+    st_loc l3
+    copy_loc l0
+    mut_borrow_loc l3
+    // @15
+    call cons_2
+    call id
+    st_loc l4
+    move_loc l0
+    mut_borrow_loc l3
+    // @20
+    call cons_2
+    call id
+    st_loc l5
+    borrow_loc l1
+    move_loc l2
+    // @25
+    ld_u64 0
+    move_loc l3
+    move_loc l4
+    move_loc l5
+    call one
+    // @30
+    call id
+    call one
+    call id
+    call cons_7
+    call cons_2_another
+    // @35
+    move_loc l1
+    ret
+l0: ld_u64 42
+    abort
+
+
+============ bytecode verification succeeded ========

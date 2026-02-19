@@ -1,0 +1,399 @@
+============ bytecode before first stackless bytecode pipeline ================
+
+[variant baseline]
+fun m::consume($t0: u64) {
+  0: return ()
+}
+
+
+[variant baseline]
+fun m::consume_($t0: 0xc0ffee::m::W) {
+  0: return ()
+}
+
+
+[variant baseline]
+public fun m::test1($t0: u64) {
+     var $t1: u64
+  0: $t1 := infer($t0)
+  1: m::consume($t0)
+  2: m::consume($t1)
+  3: return ()
+}
+
+
+[variant baseline]
+public fun m::test2($t0: u64) {
+     var $t1: u64
+  0: $t1 := infer($t0)
+  1: m::consume($t1)
+  2: m::consume($t0)
+  3: return ()
+}
+
+
+[variant baseline]
+public fun m::test3($t0: 0xc0ffee::m::W) {
+     var $t1: 0xc0ffee::m::W
+  0: $t1 := infer($t0)
+  1: m::consume_($t0)
+  2: m::consume_($t1)
+  3: return ()
+}
+
+
+[variant baseline]
+public fun m::test4($t0: 0xc0ffee::m::W) {
+     var $t1: 0xc0ffee::m::W
+  0: $t1 := infer($t0)
+  1: m::consume_($t1)
+  2: m::consume_($t0)
+  3: return ()
+}
+
+============ bytecode before second stackless bytecode pipeline ================
+
+[variant baseline]
+fun m::consume($t0: u64) {
+  0: return ()
+}
+
+
+[variant baseline]
+fun m::consume_($t0: 0xc0ffee::m::W) {
+  0: return ()
+}
+
+
+[variant baseline]
+public fun m::test1($t0: u64) {
+     var $t1: u64
+  0: $t1 := infer($t0)
+  1: m::consume($t0)
+  2: m::consume($t1)
+  3: return ()
+}
+
+
+[variant baseline]
+public fun m::test2($t0: u64) {
+     var $t1: u64
+  0: $t1 := infer($t0)
+  1: m::consume($t1)
+  2: m::consume($t0)
+  3: return ()
+}
+
+
+[variant baseline]
+public fun m::test3($t0: 0xc0ffee::m::W) {
+     var $t1: 0xc0ffee::m::W
+  0: $t1 := infer($t0)
+  1: m::consume_($t0)
+  2: m::consume_($t1)
+  3: return ()
+}
+
+
+[variant baseline]
+public fun m::test4($t0: 0xc0ffee::m::W) {
+     var $t1: 0xc0ffee::m::W
+  0: $t1 := infer($t0)
+  1: m::consume_($t1)
+  2: m::consume_($t0)
+  3: return ()
+}
+
+============ after DeadStoreElimination: ================
+
+[variant baseline]
+fun m::consume($t0: u64) {
+  0: return ()
+}
+
+
+[variant baseline]
+fun m::consume_($t0: 0xc0ffee::m::W) {
+  0: return ()
+}
+
+
+[variant baseline]
+public fun m::test1($t0: u64) {
+     var $t1: u64
+  0: $t1 := copy($t0)
+  1: m::consume($t0)
+  2: m::consume($t1)
+  3: return ()
+}
+
+
+[variant baseline]
+public fun m::test2($t0: u64) {
+     var $t1: u64
+  0: $t1 := copy($t0)
+  1: m::consume($t1)
+  2: m::consume($t0)
+  3: return ()
+}
+
+
+[variant baseline]
+public fun m::test3($t0: 0xc0ffee::m::W) {
+     var $t1: 0xc0ffee::m::W
+  0: $t1 := copy($t0)
+  1: m::consume_($t0)
+  2: m::consume_($t1)
+  3: return ()
+}
+
+
+[variant baseline]
+public fun m::test4($t0: 0xc0ffee::m::W) {
+     var $t1: 0xc0ffee::m::W
+  0: $t1 := copy($t0)
+  1: m::consume_($t1)
+  2: m::consume_($t0)
+  3: return ()
+}
+
+============ after VariableCoalescingAnnotator: ================
+
+[variant baseline]
+fun m::consume($t0: u64) {
+     # live vars: $t0
+     # events: b:$t0, e:$t0
+  0: return ()
+}
+
+
+[variant baseline]
+fun m::consume_($t0: 0xc0ffee::m::W) {
+     # live vars: $t0
+     # events: b:$t0, e:$t0
+  0: return ()
+}
+
+
+[variant baseline]
+public fun m::test1($t0: u64) {
+     var $t1: u64
+     # live vars: $t0
+     # events: b:$t0, b:$t1
+  0: $t1 := copy($t0)
+     # live vars: $t0, $t1
+     # events: e:$t0
+  1: m::consume($t0)
+     # live vars: $t1
+     # events: e:$t1
+  2: m::consume($t1)
+     # live vars:
+  3: return ()
+}
+
+
+[variant baseline]
+public fun m::test2($t0: u64) {
+     var $t1: u64
+     # live vars: $t0
+     # events: b:$t0, b:$t1
+  0: $t1 := copy($t0)
+     # live vars: $t0, $t1
+     # events: e:$t1
+  1: m::consume($t1)
+     # live vars: $t0
+     # events: e:$t0
+  2: m::consume($t0)
+     # live vars:
+  3: return ()
+}
+
+
+[variant baseline]
+public fun m::test3($t0: 0xc0ffee::m::W) {
+     var $t1: 0xc0ffee::m::W
+     # live vars: $t0
+     # events: b:$t0, b:$t1
+  0: $t1 := copy($t0)
+     # live vars: $t0, $t1
+     # events: e:$t0
+  1: m::consume_($t0)
+     # live vars: $t1
+     # events: e:$t1
+  2: m::consume_($t1)
+     # live vars:
+  3: return ()
+}
+
+
+[variant baseline]
+public fun m::test4($t0: 0xc0ffee::m::W) {
+     var $t1: 0xc0ffee::m::W
+     # live vars: $t0
+     # events: b:$t0, b:$t1
+  0: $t1 := copy($t0)
+     # live vars: $t0, $t1
+     # events: e:$t1
+  1: m::consume_($t1)
+     # live vars: $t0
+     # events: e:$t0
+  2: m::consume_($t0)
+     # live vars:
+  3: return ()
+}
+
+============ after VariableCoalescingTransformer: ================
+
+[variant baseline]
+fun m::consume($t0: u64) {
+  0: return ()
+}
+
+
+[variant baseline]
+fun m::consume_($t0: 0xc0ffee::m::W) {
+  0: return ()
+}
+
+
+[variant baseline]
+public fun m::test1($t0: u64) {
+     var $t1: u64
+  0: $t1 := copy($t0)
+  1: m::consume($t0)
+  2: m::consume($t1)
+  3: return ()
+}
+
+
+[variant baseline]
+public fun m::test2($t0: u64) {
+     var $t1: u64
+  0: $t1 := copy($t0)
+  1: m::consume($t1)
+  2: m::consume($t0)
+  3: return ()
+}
+
+
+[variant baseline]
+public fun m::test3($t0: 0xc0ffee::m::W) {
+     var $t1: 0xc0ffee::m::W
+  0: $t1 := copy($t0)
+  1: m::consume_($t0)
+  2: m::consume_($t1)
+  3: return ()
+}
+
+
+[variant baseline]
+public fun m::test4($t0: 0xc0ffee::m::W) {
+     var $t1: 0xc0ffee::m::W
+  0: $t1 := copy($t0)
+  1: m::consume_($t1)
+  2: m::consume_($t0)
+  3: return ()
+}
+
+============ after DeadStoreElimination: ================
+
+[variant baseline]
+fun m::consume($t0: u64) {
+  0: return ()
+}
+
+
+[variant baseline]
+fun m::consume_($t0: 0xc0ffee::m::W) {
+  0: return ()
+}
+
+
+[variant baseline]
+public fun m::test1($t0: u64) {
+     var $t1: u64
+  0: $t1 := copy($t0)
+  1: m::consume($t0)
+  2: m::consume($t1)
+  3: return ()
+}
+
+
+[variant baseline]
+public fun m::test2($t0: u64) {
+     var $t1: u64
+  0: $t1 := copy($t0)
+  1: m::consume($t1)
+  2: m::consume($t0)
+  3: return ()
+}
+
+
+[variant baseline]
+public fun m::test3($t0: 0xc0ffee::m::W) {
+     var $t1: 0xc0ffee::m::W
+  0: $t1 := copy($t0)
+  1: m::consume_($t0)
+  2: m::consume_($t1)
+  3: return ()
+}
+
+
+[variant baseline]
+public fun m::test4($t0: 0xc0ffee::m::W) {
+     var $t1: 0xc0ffee::m::W
+  0: $t1 := copy($t0)
+  1: m::consume_($t1)
+  2: m::consume_($t0)
+  3: return ()
+}
+
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0xc0ffee::m
+struct W has copy + drop
+  x: u64
+
+// Function definition at index 0
+fun consume(l0: u64)
+    ret
+
+// Function definition at index 1
+fun consume_(l0: W)
+    ret
+
+// Function definition at index 2
+#[persistent] public fun test1(l0: u64)
+    copy_loc l0
+    move_loc l0
+    call consume
+    call consume
+    ret
+
+// Function definition at index 3
+#[persistent] public fun test2(l0: u64)
+    copy_loc l0
+    call consume
+    move_loc l0
+    call consume
+    ret
+
+// Function definition at index 4
+#[persistent] public fun test3(l0: W)
+    copy_loc l0
+    move_loc l0
+    call consume_
+    call consume_
+    ret
+
+// Function definition at index 5
+#[persistent] public fun test4(l0: W)
+    copy_loc l0
+    call consume_
+    move_loc l0
+    call consume_
+    ret
+
+
+============ bytecode verification succeeded ========

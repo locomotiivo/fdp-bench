@@ -1,0 +1,13 @@
+// Copyright (c) Aptos Foundation
+// Licensed pursuant to the Innovation-Enabling Source Code License, available at https://github.com/aptos-labs/aptos-core/blob/main/LICENSE
+
+use aptos_enum_conversion_derive::EnumConversion;
+
+#[derive(EnumConversion)]
+enum Messages {
+    Test
+}
+
+fn main() {
+
+}

@@ -1,0 +1,9 @@
+processed 1 task
+task 0 lines 1-11:  publish [module 0x1.Token {]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000001::Token'. Got VMError: {
+    major_status: EQUALITY_OP_TYPE_MISMATCH_ERROR,
+    sub_status: None,
+    location: 0x1::Token,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 4)],
+}

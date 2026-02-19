@@ -1,0 +1,63 @@
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0x42::test
+use 0x1::string
+// Function definition at index 0
+fun test<T0>(l0: vector<u8>): T0
+    local l1: string::String
+    call foo<T0>
+    st_loc l1
+    copy_loc l1
+    ld_const<vector<u8>> [98, 111, 111, 108]
+    call string::utf8
+    // @5
+    eq
+    br_false l0
+    move_loc l0
+    call baz<bool>
+    call bar<T0>
+    // @10
+    ret
+l0: copy_loc l1
+    ld_const<vector<u8>> [117, 56]
+    call string::utf8
+    eq
+    // @15
+    br_false l1
+    move_loc l0
+    call baz<bool>
+    call bar<T0>
+    ret
+    // @20
+l1: move_loc l1
+    ld_const<vector<u8>> [117, 54, 52]
+    call string::utf8
+    eq
+    br_false l2
+    // @25
+    move_loc l0
+    call baz<bool>
+    call bar<T0>
+    ret
+l2: ld_u64 0
+    // @30
+    abort
+
+// Function definition at index 1
+fun bar<T0>(l0: bool): T0
+    ld_u64 0
+    abort
+
+// Function definition at index 2
+fun baz<T0>(l0: vector<u8>): T0
+    ld_u64 0
+    abort
+
+// Function definition at index 3
+fun foo<T0>(): string::String
+    ld_u64 0
+    abort
+
+
+============ bytecode verification succeeded ========

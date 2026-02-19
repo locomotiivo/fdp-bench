@@ -1,0 +1,107 @@
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0xc0ffee::m
+struct S<T0, T1> has store
+  keys: vector<T0>
+  values: vector<T1>
+  num: u64
+
+// Function definition at index 0
+fun add<T0, T1>(l0: &mut S<T0, T1>, l1: T0, l2: T1)
+    local l3: &mut u64
+    copy_loc l0
+    mut_borrow_field S<T0, T1>, keys
+    move_loc l1
+    vec_push_back <T0>
+    copy_loc l0
+    // @5
+    mut_borrow_field S<T0, T1>, values
+    move_loc l2
+    vec_push_back <T1>
+    move_loc l0
+    mut_borrow_field S<T0, T1>, num
+    // @10
+    st_loc l3
+    copy_loc l3
+    read_ref
+    ld_u64 1
+    add
+    // @15
+    move_loc l3
+    write_ref
+    ret
+
+// Function definition at index 1
+fun destroy<T0: drop, T1: drop>(l0: S<T0, T1>)
+    local l1: vector<T1>
+    local l2: vector<T0>
+    mut_borrow_loc l0
+    mut_borrow_field S<T0, T1>, keys
+    vec_pop_back <T0>
+    mut_borrow_loc l0
+    mut_borrow_field S<T0, T1>, values
+    // @5
+    vec_pop_back <T1>
+    move_loc l0
+    unpack S<T0, T1>
+    pop
+    st_loc l1
+    // @10
+    st_loc l2
+    move_loc l2
+    vec_unpack <T0>, 0
+    move_loc l1
+    vec_unpack <T1>, 0
+    // @15
+    pop
+    pop
+    ret
+
+// Function definition at index 2
+fun kp<T0: copy + drop + store, T1: copy + store>(l0: &S<T0, T1>, l1: u64): (vector<T0>, u64)
+    move_loc l0
+    borrow_field S<T0, T1>, keys
+    read_ref
+    move_loc l1
+    ret
+
+// Function definition at index 3
+fun new<T0: copy + drop + store, T1: store>(): S<T0, T1>
+    vec_pack <T0>, 0
+    vec_pack <T1>, 0
+    ld_u64 0
+    pack S<T0, T1>
+    ret
+
+// Function definition at index 4
+#[persistent] public fun test()
+    local l0: S<u64, u64>
+    local l1: &S<u64, u64>
+    local l2: u64
+    call new<u64, u64>
+    st_loc l0
+    mut_borrow_loc l0
+    ld_u64 1
+    ld_u64 0
+    // @5
+    call add<u64, u64>
+    borrow_loc l0
+    borrow_field S<u64, u64>, num
+    read_ref
+    borrow_loc l0
+    // @10
+    st_loc l1
+    st_loc l2
+    move_loc l1
+    move_loc l2
+    call kp<u64, u64>
+    // @15
+    move_loc l0
+    call destroy<u64, u64>
+    pop
+    pop
+    ret
+
+
+============ bytecode verification succeeded ========

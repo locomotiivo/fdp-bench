@@ -1,0 +1,59 @@
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0x42::pack_unpack
+struct S
+  f1: u8
+  f2: u8
+  f3: u8
+
+// Function definition at index 0
+fun pack1(l0: u8, l1: u8, l2: u8): S
+    move_loc l0
+    move_loc l1
+    move_loc l2
+    pack S
+    ret
+
+// Function definition at index 1
+fun pack2(l0: u8, l1: u8, l2: u8): S
+    move_loc l0
+    move_loc l2
+    move_loc l1
+    pack S
+    ret
+
+// Function definition at index 2
+fun pack3(l0: u8, l1: u8, l2: u8): S
+    move_loc l1
+    move_loc l0
+    move_loc l2
+    pack S
+    ret
+
+// Function definition at index 3
+fun pack4(l0: u8, l1: u8, l2: u8): S
+    move_loc l2
+    move_loc l0
+    move_loc l1
+    pack S
+    ret
+
+// Function definition at index 4
+fun pack5(l0: u8, l1: u8, l2: u8): S
+    move_loc l1
+    move_loc l2
+    move_loc l0
+    pack S
+    ret
+
+// Function definition at index 5
+fun pack6(l0: u8, l1: u8, l2: u8): S
+    move_loc l2
+    move_loc l1
+    move_loc l0
+    pack S
+    ret
+
+
+============ bytecode verification succeeded ========

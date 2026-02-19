@@ -1,0 +1,1161 @@
+// -- Model dump before first bytecode pipeline
+module 0xc0ffee::m {
+    private fun mod1(r: &mut u64) {
+        {
+          let $t2: u64 = 2;
+          {
+            let $t1: &mut u64 = r;
+            $t1 = Add<u64>(Deref($t1), $t2)
+          }
+        };
+        Tuple()
+    }
+    private fun mod2(r: &mut u64): u64 {
+        {
+          let $t2: u64 = 2;
+          {
+            let $t1: &mut u64 = r;
+            $t1 = Add<u64>(Deref($t1), $t2)
+          }
+        };
+        Deref(r)
+    }
+    public fun test0(): u64 {
+        {
+          let v: u64 = 1;
+          {
+            let $t: u64 = {
+              let $t: u64 = {
+                let $t: u64 = 2;
+                v: u64 = Add<u64>(v, $t)
+              };
+              v;
+              v: u64 = Add<u64>(v, $t)
+            };
+            v;
+            v: u64 = Add<u64>(v, $t)
+          };
+          v
+        }
+    }
+    public fun test1(): u64 {
+        {
+          let v: u64 = 1;
+          {
+            let $t: u64 = {
+              let $t: u64 = 2;
+              v: u64 = Add<u64>(v, $t)
+            };
+            v;
+            v: u64 = Add<u64>(v, $t)
+          };
+          v
+        }
+    }
+    public fun test2(): u64 {
+        {
+          let v: u64 = 1;
+          {
+            let $t: u64 = m::mod1(Borrow(Mutable)(v));
+            v;
+            v: u64 = Add<u64>(v, $t)
+          };
+          v
+        }
+    }
+    public fun test3(): u64 {
+        {
+          let v: u64 = 1;
+          {
+            let $t: u64 = m::mod2(Borrow(Mutable)(v));
+            v: u64 = Add<u64>(v, $t)
+          };
+          v
+        }
+    }
+} // end 0xc0ffee::m
+
+// -- Sourcified model before first bytecode pipeline
+module 0xc0ffee::m {
+    fun mod1(r: &mut u64) {
+        {
+            let _t2 = 2;
+            let _t1 = r;
+            *_t1 = *_t1 + _t2
+        };
+    }
+    fun mod2(r: &mut u64): u64 {
+        {
+            let _t2 = 2;
+            let _t1 = r;
+            *_t1 = *_t1 + _t2
+        };
+        *r
+    }
+    public fun test0(): u64 {
+        let v = 1;
+        {
+            let _t = {
+                {
+                    let _t = {
+                        {
+                            let _t = 2;
+                            v = v + _t
+                        };
+                        v
+                    };
+                    v = v + _t
+                };
+                v
+            };
+            v = v + _t
+        };
+        v
+    }
+    public fun test1(): u64 {
+        let v = 1;
+        {
+            let _t = {
+                {
+                    let _t = 2;
+                    v = v + _t
+                };
+                v
+            };
+            v = v + _t
+        };
+        v
+    }
+    public fun test2(): u64 {
+        let v = 1;
+        {
+            let _t = {
+                mod1(&mut v);
+                v
+            };
+            v = v + _t
+        };
+        v
+    }
+    public fun test3(): u64 {
+        let v = 1;
+        {
+            let _t = mod2(&mut v);
+            v = v + _t
+        };
+        v
+    }
+}
+
+============ bytecode before first stackless bytecode pipeline ================
+
+[variant baseline]
+fun m::mod1($t0: &mut u64) {
+     var $t1: u64
+     var $t2: &mut u64
+     var $t3: u64
+     var $t4: u64
+  0: $t1 := 2
+  1: $t2 := infer($t0)
+  2: $t4 := read_ref($t2)
+  3: $t3 := +($t4, $t1)
+  4: write_ref($t2, $t3)
+  5: return ()
+}
+
+
+[variant baseline]
+fun m::mod2($t0: &mut u64): u64 {
+     var $t1: u64
+     var $t2: u64
+     var $t3: &mut u64
+     var $t4: u64
+     var $t5: u64
+  0: $t2 := 2
+  1: $t3 := infer($t0)
+  2: $t5 := read_ref($t3)
+  3: $t4 := +($t5, $t2)
+  4: write_ref($t3, $t4)
+  5: $t1 := read_ref($t0)
+  6: return $t1
+}
+
+
+[variant baseline]
+public fun m::test0(): u64 {
+     var $t0: u64
+     var $t1: u64
+     var $t2: u64
+     var $t3: u64
+     var $t4: u64
+     var $t5: u64
+     var $t6: u64
+     var $t7: u64
+     var $t8: u64
+     var $t9: u64
+     var $t10: u64
+  0: $t1 := 1
+  1: $t4 := 2
+  2: $t6 := infer($t1)
+  3: $t5 := +($t6, $t4)
+  4: $t1 := infer($t5)
+  5: $t3 := infer($t1)
+  6: $t8 := infer($t1)
+  7: $t7 := +($t8, $t3)
+  8: $t1 := infer($t7)
+  9: $t2 := infer($t1)
+ 10: $t10 := infer($t1)
+ 11: $t9 := +($t10, $t2)
+ 12: $t1 := infer($t9)
+ 13: $t0 := infer($t1)
+ 14: return $t0
+}
+
+
+[variant baseline]
+public fun m::test1(): u64 {
+     var $t0: u64
+     var $t1: u64
+     var $t2: u64
+     var $t3: u64
+     var $t4: u64
+     var $t5: u64
+     var $t6: u64
+     var $t7: u64
+  0: $t1 := 1
+  1: $t3 := 2
+  2: $t5 := infer($t1)
+  3: $t4 := +($t5, $t3)
+  4: $t1 := infer($t4)
+  5: $t2 := infer($t1)
+  6: $t7 := infer($t1)
+  7: $t6 := +($t7, $t2)
+  8: $t1 := infer($t6)
+  9: $t0 := infer($t1)
+ 10: return $t0
+}
+
+
+[variant baseline]
+public fun m::test2(): u64 {
+     var $t0: u64
+     var $t1: u64
+     var $t2: u64
+     var $t3: &mut u64
+     var $t4: u64
+     var $t5: u64
+  0: $t1 := 1
+  1: $t3 := borrow_local($t1)
+  2: m::mod1($t3)
+  3: $t2 := infer($t1)
+  4: $t5 := infer($t1)
+  5: $t4 := +($t5, $t2)
+  6: $t1 := infer($t4)
+  7: $t0 := infer($t1)
+  8: return $t0
+}
+
+
+[variant baseline]
+public fun m::test3(): u64 {
+     var $t0: u64
+     var $t1: u64
+     var $t2: u64
+     var $t3: &mut u64
+     var $t4: u64
+     var $t5: u64
+  0: $t1 := 1
+  1: $t3 := borrow_local($t1)
+  2: $t2 := m::mod2($t3)
+  3: $t5 := infer($t1)
+  4: $t4 := +($t5, $t2)
+  5: $t1 := infer($t4)
+  6: $t0 := infer($t1)
+  7: return $t0
+}
+
+============ after AbortAnalysisProcessor: ================
+
+[variant baseline]
+fun m::mod1($t0: &mut u64) {
+     var $t1: u64
+     var $t2: &mut u64
+     var $t3: u64
+     var $t4: u64
+     # abort state: {returns,aborts}
+     # live vars: $t0
+     # refs: [$t0 => #0]
+     # #0
+     #   <no edges>
+     # #root
+     #   <no edges>
+     #
+  0: $t1 := 2
+     # abort state: {returns,aborts}
+     # live vars: $t0, $t1
+     # refs: [$t0 => #0]
+     # #0
+     #   <no edges>
+     # #root
+     #   <no edges>
+     #
+  1: $t2 := infer($t0)
+     # abort state: {returns,aborts}
+     # live vars: $t1, $t2
+     # refs: [$t2 => #2]
+     # #2
+     #   <no edges>
+     # #root
+     #   <no edges>
+     #
+  2: $t4 := read_ref($t2)
+     # abort state: {returns,aborts}
+     # live vars: $t1, $t2, $t4
+     # refs: [$t2 => #2]
+     # #2
+     #   <no edges>
+     # #root
+     #   <no edges>
+     #
+  3: $t3 := +($t4, $t1)
+     # abort state: {returns}
+     # live vars: $t2, $t3
+     # refs: [$t2 => #2]
+     # #2
+     #   <no edges>
+     # #root
+     #   <no edges>
+     #
+  4: write_ref($t2, $t3)
+     # abort state: {returns}
+     # live vars:
+     # refs: []
+     #
+  5: return ()
+}
+
+
+[variant baseline]
+fun m::mod2($t0: &mut u64): u64 {
+     var $t1: u64
+     var $t2: u64
+     var $t3: &mut u64
+     var $t4: u64
+     var $t5: u64
+     # abort state: {returns,aborts}
+     # live vars: $t0
+     # refs: [$t0 => #0]
+     # #0
+     #   <no edges>
+     # #root
+     #   <no edges>
+     #
+  0: $t2 := 2
+     # abort state: {returns,aborts}
+     # live vars: $t0, $t2
+     # refs: [$t0 => #0]
+     # #0
+     #   <no edges>
+     # #root
+     #   <no edges>
+     #
+  1: $t3 := infer($t0)
+     # abort state: {returns,aborts}
+     # live vars: $t0, $t2, $t3
+     # refs: [$t0 => #0, $t3 => #3]
+     # #0
+     #   => (mut) #3 via [] at line 26
+     # #3
+     #   <no edges>
+     # #root
+     #   <no edges>
+     #
+  2: $t5 := read_ref($t3)
+     # abort state: {returns,aborts}
+     # live vars: $t0, $t2, $t3, $t5
+     # refs: [$t0 => #0, $t3 => #3]
+     # #0
+     #   => (mut) #3 via [] at line 26
+     # #3
+     #   <no edges>
+     # #root
+     #   <no edges>
+     #
+  3: $t4 := +($t5, $t2)
+     # abort state: {returns}
+     # live vars: $t0, $t3, $t4
+     # refs: [$t0 => #0, $t3 => #3]
+     # #0
+     #   => (mut) #3 via [] at line 26
+     # #3
+     #   <no edges>
+     # #root
+     #   <no edges>
+     #
+  4: write_ref($t3, $t4)
+     # abort state: {returns}
+     # live vars: $t0
+     # refs: [$t0 => #0]
+     # #0
+     #   <no edges>
+     # #root
+     #   <no edges>
+     #
+  5: $t1 := read_ref($t0)
+     # abort state: {returns}
+     # live vars: $t1
+     # refs: []
+     #
+  6: return $t1
+}
+
+
+[variant baseline]
+public fun m::test0(): u64 {
+     var $t0: u64
+     var $t1: u64
+     var $t2: u64
+     var $t3: u64
+     var $t4: u64
+     var $t5: u64
+     var $t6: u64
+     var $t7: u64
+     var $t8: u64
+     var $t9: u64
+     var $t10: u64
+     # abort state: {returns,aborts}
+     # live vars:
+     # refs: []
+     #
+  0: $t1 := 1
+     # abort state: {returns,aborts}
+     # live vars: $t1
+     # refs: []
+     #
+  1: $t4 := 2
+     # abort state: {returns,aborts}
+     # live vars: $t1, $t4
+     # refs: []
+     #
+  2: $t6 := infer($t1)
+     # abort state: {returns,aborts}
+     # live vars: $t4, $t6
+     # refs: []
+     #
+  3: $t5 := +($t6, $t4)
+     # abort state: {returns,aborts}
+     # live vars: $t5
+     # refs: []
+     #
+  4: $t1 := infer($t5)
+     # abort state: {returns,aborts}
+     # live vars: $t1
+     # refs: []
+     #
+  5: $t3 := infer($t1)
+     # abort state: {returns,aborts}
+     # live vars: $t1, $t3
+     # refs: []
+     #
+  6: $t8 := infer($t1)
+     # abort state: {returns,aborts}
+     # live vars: $t3, $t8
+     # refs: []
+     #
+  7: $t7 := +($t8, $t3)
+     # abort state: {returns,aborts}
+     # live vars: $t7
+     # refs: []
+     #
+  8: $t1 := infer($t7)
+     # abort state: {returns,aborts}
+     # live vars: $t1
+     # refs: []
+     #
+  9: $t2 := infer($t1)
+     # abort state: {returns,aborts}
+     # live vars: $t1, $t2
+     # refs: []
+     #
+ 10: $t10 := infer($t1)
+     # abort state: {returns,aborts}
+     # live vars: $t2, $t10
+     # refs: []
+     #
+ 11: $t9 := +($t10, $t2)
+     # abort state: {returns}
+     # live vars: $t9
+     # refs: []
+     #
+ 12: $t1 := infer($t9)
+     # abort state: {returns}
+     # live vars: $t1
+     # refs: []
+     #
+ 13: $t0 := infer($t1)
+     # abort state: {returns}
+     # live vars: $t0
+     # refs: []
+     #
+ 14: return $t0
+}
+
+
+[variant baseline]
+public fun m::test1(): u64 {
+     var $t0: u64
+     var $t1: u64
+     var $t2: u64
+     var $t3: u64
+     var $t4: u64
+     var $t5: u64
+     var $t6: u64
+     var $t7: u64
+     # abort state: {returns,aborts}
+     # live vars:
+     # refs: []
+     #
+  0: $t1 := 1
+     # abort state: {returns,aborts}
+     # live vars: $t1
+     # refs: []
+     #
+  1: $t3 := 2
+     # abort state: {returns,aborts}
+     # live vars: $t1, $t3
+     # refs: []
+     #
+  2: $t5 := infer($t1)
+     # abort state: {returns,aborts}
+     # live vars: $t3, $t5
+     # refs: []
+     #
+  3: $t4 := +($t5, $t3)
+     # abort state: {returns,aborts}
+     # live vars: $t4
+     # refs: []
+     #
+  4: $t1 := infer($t4)
+     # abort state: {returns,aborts}
+     # live vars: $t1
+     # refs: []
+     #
+  5: $t2 := infer($t1)
+     # abort state: {returns,aborts}
+     # live vars: $t1, $t2
+     # refs: []
+     #
+  6: $t7 := infer($t1)
+     # abort state: {returns,aborts}
+     # live vars: $t2, $t7
+     # refs: []
+     #
+  7: $t6 := +($t7, $t2)
+     # abort state: {returns}
+     # live vars: $t6
+     # refs: []
+     #
+  8: $t1 := infer($t6)
+     # abort state: {returns}
+     # live vars: $t1
+     # refs: []
+     #
+  9: $t0 := infer($t1)
+     # abort state: {returns}
+     # live vars: $t0
+     # refs: []
+     #
+ 10: return $t0
+}
+
+
+[variant baseline]
+public fun m::test2(): u64 {
+     var $t0: u64
+     var $t1: u64
+     var $t2: u64
+     var $t3: &mut u64
+     var $t4: u64
+     var $t5: u64
+     # abort state: {returns,aborts}
+     # live vars:
+     # refs: []
+     #
+  0: $t1 := 1
+     # abort state: {returns,aborts}
+     # live vars: $t1
+     # refs: []
+     #
+  1: $t3 := borrow_local($t1)
+     # abort state: {returns,aborts}
+     # live vars: $t1, $t3
+     # refs: [$t3 => #3]
+     # #3
+     #   <no edges>
+     # #root
+     #   => (mut) #3 via [local `v`] at line 21
+     #
+  2: m::mod1($t3)
+     # abort state: {returns,aborts}
+     # live vars: $t1
+     # refs: []
+     #
+  3: $t2 := infer($t1)
+     # abort state: {returns,aborts}
+     # live vars: $t1, $t2
+     # refs: []
+     #
+  4: $t5 := infer($t1)
+     # abort state: {returns,aborts}
+     # live vars: $t2, $t5
+     # refs: []
+     #
+  5: $t4 := +($t5, $t2)
+     # abort state: {returns}
+     # live vars: $t4
+     # refs: []
+     #
+  6: $t1 := infer($t4)
+     # abort state: {returns}
+     # live vars: $t1
+     # refs: []
+     #
+  7: $t0 := infer($t1)
+     # abort state: {returns}
+     # live vars: $t0
+     # refs: []
+     #
+  8: return $t0
+}
+
+
+[variant baseline]
+public fun m::test3(): u64 {
+     var $t0: u64
+     var $t1: u64
+     var $t2: u64
+     var $t3: &mut u64
+     var $t4: u64
+     var $t5: u64
+     # abort state: {returns,aborts}
+     # live vars:
+     # refs: []
+     #
+  0: $t1 := 1
+     # abort state: {returns,aborts}
+     # live vars: $t1
+     # refs: []
+     #
+  1: $t3 := borrow_local($t1)
+     # abort state: {returns,aborts}
+     # live vars: $t1, $t3
+     # refs: [$t3 => #3]
+     # #3
+     #   <no edges>
+     # #root
+     #   => (mut) #3 via [local `v`] at line 32
+     #
+  2: $t2 := m::mod2($t3)
+     # abort state: {returns,aborts}
+     # live vars: $t1, $t2
+     # refs: []
+     #
+  3: $t5 := infer($t1)
+     # abort state: {returns,aborts}
+     # live vars: $t2, $t5
+     # refs: []
+     #
+  4: $t4 := +($t5, $t2)
+     # abort state: {returns}
+     # live vars: $t4
+     # refs: []
+     #
+  5: $t1 := infer($t4)
+     # abort state: {returns}
+     # live vars: $t1
+     # refs: []
+     #
+  6: $t0 := infer($t1)
+     # abort state: {returns}
+     # live vars: $t0
+     # refs: []
+     #
+  7: return $t0
+}
+
+// -- Model dump before second bytecode pipeline
+module 0xc0ffee::m {
+    private fun mod1(r: &mut u64) {
+        {
+          let $t1: &mut u64 = r;
+          $t1 = Add<u64>(Deref($t1), 2)
+        };
+        Tuple()
+    }
+    private fun mod2(r: &mut u64): u64 {
+        {
+          let $t1: &mut u64 = r;
+          $t1 = Add<u64>(Deref($t1), 2)
+        };
+        Deref(r)
+    }
+    public fun test0(): u64 {
+        {
+          let v: u64 = 1;
+          {
+            let $t: u64 = {
+              let $t: u64 = v: u64 = Add<u64>(v, 2);
+              v;
+              v: u64 = Add<u64>(v, $t)
+            };
+            v;
+            v: u64 = Add<u64>(v, $t)
+          };
+          v
+        }
+    }
+    public fun test1(): u64 {
+        {
+          let v: u64 = 1;
+          {
+            let $t: u64 = v: u64 = Add<u64>(v, 2);
+            v;
+            v: u64 = Add<u64>(v, $t)
+          };
+          v
+        }
+    }
+    public fun test2(): u64 {
+        {
+          let v: u64 = 1;
+          {
+            let $t: u64 = m::mod1(Borrow(Mutable)(v));
+            v;
+            v: u64 = Add<u64>(v, $t)
+          };
+          v
+        }
+    }
+    public fun test3(): u64 {
+        {
+          let v: u64 = 1;
+          {
+            let $t: u64 = m::mod2(Borrow(Mutable)(v));
+            v: u64 = Add<u64>(v, $t)
+          };
+          v
+        }
+    }
+} // end 0xc0ffee::m
+
+============ bytecode before second stackless bytecode pipeline ================
+
+[variant baseline]
+fun m::mod1($t0: &mut u64) {
+     var $t1: &mut u64
+     var $t2: u64
+     var $t3: u64
+     var $t4: u64
+  0: $t1 := infer($t0)
+  1: $t3 := read_ref($t1)
+  2: $t4 := 2
+  3: $t2 := +($t3, $t4)
+  4: write_ref($t1, $t2)
+  5: return ()
+}
+
+
+[variant baseline]
+fun m::mod2($t0: &mut u64): u64 {
+     var $t1: u64
+     var $t2: &mut u64
+     var $t3: u64
+     var $t4: u64
+     var $t5: u64
+  0: $t2 := infer($t0)
+  1: $t4 := read_ref($t2)
+  2: $t5 := 2
+  3: $t3 := +($t4, $t5)
+  4: write_ref($t2, $t3)
+  5: $t1 := read_ref($t0)
+  6: return $t1
+}
+
+
+[variant baseline]
+public fun m::test0(): u64 {
+     var $t0: u64
+     var $t1: u64
+     var $t2: u64
+     var $t3: u64
+     var $t4: u64
+     var $t5: u64
+     var $t6: u64
+     var $t7: u64
+     var $t8: u64
+     var $t9: u64
+     var $t10: u64
+  0: $t1 := 1
+  1: $t5 := infer($t1)
+  2: $t6 := 2
+  3: $t4 := +($t5, $t6)
+  4: $t1 := infer($t4)
+  5: $t3 := infer($t1)
+  6: $t8 := infer($t1)
+  7: $t7 := +($t8, $t3)
+  8: $t1 := infer($t7)
+  9: $t2 := infer($t1)
+ 10: $t10 := infer($t1)
+ 11: $t9 := +($t10, $t2)
+ 12: $t1 := infer($t9)
+ 13: $t0 := infer($t1)
+ 14: return $t0
+}
+
+
+[variant baseline]
+public fun m::test1(): u64 {
+     var $t0: u64
+     var $t1: u64
+     var $t2: u64
+     var $t3: u64
+     var $t4: u64
+     var $t5: u64
+     var $t6: u64
+     var $t7: u64
+  0: $t1 := 1
+  1: $t4 := infer($t1)
+  2: $t5 := 2
+  3: $t3 := +($t4, $t5)
+  4: $t1 := infer($t3)
+  5: $t2 := infer($t1)
+  6: $t7 := infer($t1)
+  7: $t6 := +($t7, $t2)
+  8: $t1 := infer($t6)
+  9: $t0 := infer($t1)
+ 10: return $t0
+}
+
+
+[variant baseline]
+public fun m::test2(): u64 {
+     var $t0: u64
+     var $t1: u64
+     var $t2: u64
+     var $t3: &mut u64
+     var $t4: u64
+     var $t5: u64
+  0: $t1 := 1
+  1: $t3 := borrow_local($t1)
+  2: m::mod1($t3)
+  3: $t2 := infer($t1)
+  4: $t5 := infer($t1)
+  5: $t4 := +($t5, $t2)
+  6: $t1 := infer($t4)
+  7: $t0 := infer($t1)
+  8: return $t0
+}
+
+
+[variant baseline]
+public fun m::test3(): u64 {
+     var $t0: u64
+     var $t1: u64
+     var $t2: u64
+     var $t3: &mut u64
+     var $t4: u64
+     var $t5: u64
+  0: $t1 := 1
+  1: $t3 := borrow_local($t1)
+  2: $t2 := m::mod2($t3)
+  3: $t5 := infer($t1)
+  4: $t4 := +($t5, $t2)
+  5: $t1 := infer($t4)
+  6: $t0 := infer($t1)
+  7: return $t0
+}
+
+============ after LiveVarAnalysisProcessor: ================
+
+[variant baseline]
+fun m::mod1($t0: &mut u64) {
+     var $t1: &mut u64 [unused]
+     var $t2: u64 [unused]
+     var $t3: u64
+     var $t4: u64
+     # live vars: $t0
+  0: $t0 := move($t0)
+     # live vars: $t0
+  1: $t3 := read_ref($t0)
+     # live vars: $t0, $t3
+  2: $t4 := 2
+     # live vars: $t0, $t3, $t4
+  3: $t3 := +($t3, $t4)
+     # live vars: $t0, $t3
+  4: write_ref($t0, $t3)
+     # live vars:
+  5: return ()
+}
+
+
+[variant baseline]
+fun m::mod2($t0: &mut u64): u64 {
+     var $t1: u64 [unused]
+     var $t2: &mut u64
+     var $t3: u64 [unused]
+     var $t4: u64
+     var $t5: u64
+     # live vars: $t0
+  0: $t2 := copy($t0)
+     # live vars: $t0, $t2
+  1: $t4 := read_ref($t2)
+     # live vars: $t0, $t2, $t4
+  2: $t5 := 2
+     # live vars: $t0, $t2, $t4, $t5
+  3: $t4 := +($t4, $t5)
+     # live vars: $t0, $t2, $t4
+  4: write_ref($t2, $t4)
+     # live vars: $t0
+  5: $t4 := read_ref($t0)
+     # live vars: $t4
+  6: return $t4
+}
+
+
+[variant baseline]
+public fun m::test0(): u64 {
+     var $t0: u64 [unused]
+     var $t1: u64
+     var $t2: u64 [unused]
+     var $t3: u64 [unused]
+     var $t4: u64 [unused]
+     var $t5: u64
+     var $t6: u64
+     var $t7: u64 [unused]
+     var $t8: u64 [unused]
+     var $t9: u64 [unused]
+     var $t10: u64 [unused]
+     # live vars:
+  0: $t1 := 1
+     # live vars: $t1
+  1: $t5 := move($t1)
+     # live vars: $t5
+  2: $t6 := 2
+     # live vars: $t5, $t6
+  3: $t5 := +($t5, $t6)
+     # live vars: $t5
+  4: $t1 := move($t5)
+     # live vars: $t1
+  5: $t5 := copy($t1)
+     # live vars: $t1, $t5
+  6: $t6 := move($t1)
+     # live vars: $t5, $t6
+  7: $t5 := +($t6, $t5)
+     # live vars: $t5
+  8: $t1 := move($t5)
+     # live vars: $t1
+  9: $t5 := copy($t1)
+     # live vars: $t1, $t5
+ 10: $t6 := move($t1)
+     # live vars: $t5, $t6
+ 11: $t5 := +($t6, $t5)
+     # live vars: $t5
+ 12: $t1 := move($t5)
+     # live vars: $t1
+ 13: return $t1
+}
+
+
+[variant baseline]
+public fun m::test1(): u64 {
+     var $t0: u64 [unused]
+     var $t1: u64
+     var $t2: u64 [unused]
+     var $t3: u64 [unused]
+     var $t4: u64
+     var $t5: u64
+     var $t6: u64 [unused]
+     var $t7: u64 [unused]
+     # live vars:
+  0: $t1 := 1
+     # live vars: $t1
+  1: $t4 := move($t1)
+     # live vars: $t4
+  2: $t5 := 2
+     # live vars: $t4, $t5
+  3: $t4 := +($t4, $t5)
+     # live vars: $t4
+  4: $t1 := move($t4)
+     # live vars: $t1
+  5: $t4 := copy($t1)
+     # live vars: $t1, $t4
+  6: $t5 := move($t1)
+     # live vars: $t4, $t5
+  7: $t4 := +($t5, $t4)
+     # live vars: $t4
+  8: $t1 := move($t4)
+     # live vars: $t1
+  9: return $t1
+}
+
+
+[variant baseline]
+public fun m::test2(): u64 {
+     var $t0: u64 [unused]
+     var $t1: u64
+     var $t2: u64
+     var $t3: &mut u64
+     var $t4: u64 [unused]
+     var $t5: u64
+     # live vars:
+  0: $t1 := 1
+     # live vars: $t1
+  1: $t3 := borrow_local($t1)
+     # live vars: $t1, $t3
+  2: m::mod1($t3)
+     # live vars: $t1
+  3: $t2 := copy($t1)
+     # live vars: $t1, $t2
+  4: $t5 := move($t1)
+     # live vars: $t2, $t5
+  5: $t2 := +($t5, $t2)
+     # live vars: $t2
+  6: $t1 := move($t2)
+     # live vars: $t1
+  7: $t2 := move($t1)
+     # live vars: $t2
+  8: return $t2
+}
+
+
+[variant baseline]
+public fun m::test3(): u64 {
+     var $t0: u64 [unused]
+     var $t1: u64
+     var $t2: u64
+     var $t3: &mut u64
+     var $t4: u64 [unused]
+     var $t5: u64
+     # live vars:
+  0: $t1 := 1
+     # live vars: $t1
+  1: $t3 := borrow_local($t1)
+     # live vars: $t1, $t3
+  2: $t2 := m::mod2($t3)
+     # live vars: $t1, $t2
+  3: $t5 := move($t1)
+     # live vars: $t2, $t5
+  4: $t2 := +($t5, $t2)
+     # live vars: $t2
+  5: $t1 := move($t2)
+     # live vars: $t1
+  6: $t2 := move($t1)
+     # live vars: $t2
+  7: return $t2
+}
+
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0xc0ffee::m
+// Function definition at index 0
+fun mod1(l0: &mut u64)
+    copy_loc l0
+    read_ref
+    ld_u64 2
+    add
+    move_loc l0
+    // @5
+    write_ref
+    ret
+
+// Function definition at index 1
+fun mod2(l0: &mut u64): u64
+    local l1: &mut u64
+    copy_loc l0
+    st_loc l1
+    copy_loc l1
+    read_ref
+    ld_u64 2
+    // @5
+    add
+    move_loc l1
+    write_ref
+    move_loc l0
+    read_ref
+    // @10
+    ret
+
+// Function definition at index 2
+#[persistent] public fun test0(): u64
+    local l0: u64
+    local l1: u64
+    ld_u64 1
+    ld_u64 2
+    add
+    st_loc l0
+    copy_loc l0
+    // @5
+    st_loc l1
+    move_loc l0
+    move_loc l1
+    add
+    st_loc l0
+    // @10
+    copy_loc l0
+    st_loc l1
+    move_loc l0
+    move_loc l1
+    add
+    // @15
+    ret
+
+// Function definition at index 3
+#[persistent] public fun test1(): u64
+    local l0: u64
+    local l1: u64
+    ld_u64 1
+    ld_u64 2
+    add
+    st_loc l0
+    copy_loc l0
+    // @5
+    st_loc l1
+    move_loc l0
+    move_loc l1
+    add
+    ret
+
+// Function definition at index 4
+#[persistent] public fun test2(): u64
+    local l0: u64
+    local l1: u64
+    ld_u64 1
+    st_loc l0
+    mut_borrow_loc l0
+    call mod1
+    copy_loc l0
+    // @5
+    st_loc l1
+    move_loc l0
+    move_loc l1
+    add
+    ret
+
+// Function definition at index 5
+#[persistent] public fun test3(): u64
+    local l0: u64
+    local l1: u64
+    ld_u64 1
+    st_loc l0
+    mut_borrow_loc l0
+    call mod2
+    st_loc l1
+    // @5
+    move_loc l0
+    move_loc l1
+    add
+    ret
+
+
+============ bytecode verification succeeded ========

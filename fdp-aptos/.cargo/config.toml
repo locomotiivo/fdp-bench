@@ -1,0 +1,63 @@
+[alias]
+xclippy = [
+  "clippy",
+  "--workspace",
+  "--all-targets",
+  "--",
+  "--check-cfg=cfg(fuzzing)",
+  "-Wunexpected_cfgs",
+  "-Dwarnings",
+  "-Wclippy::all", # TODO: at some point we need to clean up all the exceptions listed below
+  "-Aclippy::collapsible_if",
+  "-Aclippy::collapsible_match",
+  "-Aclippy::doc_lazy_continuation",
+  "-Aclippy::doc-overindented-list-items",
+  "-Aclippy::empty_line_after_doc_comments",
+  "-Aclippy::enum-variant-names",
+  "-Aclippy::large-enum-variant",
+  "-Aclippy::mutable-key-type",
+  "-Aclippy::result-large-err",
+  "-Aclippy::sliced-string-as-bytes",
+  "-Aclippy::upper_case_acronyms",
+]
+x = "run --package aptos-cargo-cli --bin aptos-cargo-cli --"
+
+[build]
+rustflags = ["--cfg", "tokio_unstable", "-C", "force-frame-pointers=yes", "-C", "force-unwind-tables=yes"]
+
+[target.x86_64-unknown-linux-gnu]
+# We also need to include `-C linker-plugin-lto` for performance builds to take
+# full advantage of LTO, but we cannot add it here because it would affect dev
+# and release builds as well, so we add it only when building docker images.
+rustflags = [
+  "--cfg",
+  "tokio_unstable",
+  "-C",
+  "link-arg=-fuse-ld=lld",
+  "-C",
+  "force-frame-pointers=yes",
+  "-C",
+  "force-unwind-tables=yes",
+  "-C",
+  "target-cpu=x86-64-v3",
+]
+
+[env]
+CC_x86_64_unknown_linux_gnu = "clang"
+CXX_x86_64_unknown_linux_gnu = "clang++"
+CFLAGS_x86_64_unknown_linux_gnu = "-march=x86-64-v3"
+# Need `-mpclmul` for RocksDB to build until its build script is fixed.
+CXXFLAGS_x86_64_unknown_linux_gnu = "-march=x86-64-v3 -mpclmul"
+
+# 64 bit MSVC
+[target.x86_64-pc-windows-msvc]
+rustflags = [
+  "--cfg",
+  "tokio_unstable",
+  "-C",
+  "force-frame-pointers=yes",
+  "-C",
+  "force-unwind-tables=yes",
+  "-C",
+  "link-arg=/STACK:8000000" # Set stack to 8 MB
+]

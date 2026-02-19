@@ -1,0 +1,290 @@
+
+=== Processing m::id =====================================================
+--- Source
+fun id(self: &Entity): u64 {
+        match (self) {
+            Person{id} => *id,
+            Institution{id, ..} => *id
+        }
+    }
+
+--- Stackless Bytecode
+fun m::id($t0|self: &0x815::m::Entity): u64 {
+     var $t1: &0x815::m::Entity
+     var $t2: bool
+     var $t3: &0x815::m::Entity
+     var $t4: &u64
+     var $t5: u64
+     var $t6: &0x815::m::Entity
+     var $t7: bool
+     var $t8: &0x815::m::Entity
+     var $t9: &u64
+     var $t10: u64
+     var $t11: &0x815::m::Entity
+     var $t12: u64
+  0: $t1 := copy($t0)
+  1: $t2 := test_variant 0x815::m::Entity::Person($t1)
+  2: if ($t2) goto 3 else goto 8
+  3: label L1
+  4: $t3 := move($t0)
+  5: $t4 := borrow_variant_field<0x815::m::Entity::Person>.id($t3)
+  6: $t5 := read_ref($t4)
+  7: return $t5
+  8: label L0
+  9: $t6 := copy($t0)
+ 10: $t7 := test_variant 0x815::m::Entity::Institution($t6)
+ 11: if ($t7) goto 12 else goto 17
+ 12: label L3
+ 13: $t8 := move($t0)
+ 14: $t9 := borrow_variant_field<0x815::m::Entity::Institution>.id($t8)
+ 15: $t10 := read_ref($t9)
+ 16: return $t10
+ 17: label L2
+ 18: $t11 := move($t0)
+ 19: drop($t11)
+ 20: $t12 := 14566554180833181697
+ 21: abort($t12)
+}
+
+--- Raw Generated AST
+_t1: &Entity = self;
+_t2: bool = test_variants m::Entity::Person(_t1);
+loop {
+  loop {
+    if (_t2) break;
+    _t6: &Entity = self;
+    _t7: bool = test_variants m::Entity::Institution(_t6);
+    if (_t7) break[1];
+    _t11: &Entity = self;
+    _t12: u64 = 14566554180833181697;
+    Abort(_t12)
+  };
+  _t3: &Entity = self;
+  _t4: &u64 = select_variants m::Entity.Person.id(_t3);
+  _t5: u64 = Deref(_t4);
+  return _t5
+};
+_t8: &Entity = self;
+_t9: &u64 = select_variants m::Entity.Institution.id(_t8);
+_t10: u64 = Deref(_t9);
+return _t10
+
+--- Assign-Transformed Generated AST
+loop {
+  loop {
+    if (test_variants m::Entity::Person(self)) break;
+    if (test_variants m::Entity::Institution(self)) break[1];
+    Abort(14566554180833181697)
+  };
+  return Deref(select_variants m::Entity.Person.id(self))
+};
+return Deref(select_variants m::Entity.Institution.id(self))
+
+--- If-Transformed Generated AST
+loop {
+  if Not(test_variants m::Entity::Person(self)) {
+    if (test_variants m::Entity::Institution(self)) break;
+    Abort(14566554180833181697)
+  };
+  return Deref(select_variants m::Entity.Person.id(self))
+};
+return Deref(select_variants m::Entity.Institution.id(self))
+
+--- Var-Bound Generated AST
+loop {
+  if Not(test_variants m::Entity::Person(self)) {
+    if (test_variants m::Entity::Institution(self)) break;
+    Abort(14566554180833181697)
+  };
+  return Deref(select_variants m::Entity.Person.id(self))
+};
+return Deref(select_variants m::Entity.Institution.id(self))
+
+
+=== Processing m::id2 =====================================================
+--- Source
+fun id2(self: Entity): u64 {
+        match (self) {
+            Person{id} if id > 0 => id,
+            Institution{id, ..} => id,
+            _ => 0
+        }
+    }
+
+--- Stackless Bytecode
+fun m::id2($t0|self: 0x815::m::Entity): u64 {
+     var $t1|$t2: &0x815::m::Entity
+     var $t2: &0x815::m::Entity
+     var $t3: &0x815::m::Entity
+     var $t4: bool
+     var $t5: &0x815::m::Entity
+     var $t6: bool
+     var $t7: 0x815::m::Entity
+     var $t8: u64
+     var $t9: u64
+     var $t10: u64
+     var $t11: &0x815::m::Entity
+     var $t12: &u64
+     var $t13: u64
+     var $t14: u64
+     var $t15: bool
+     var $t16: &0x815::m::Entity
+     var $t17: 0x815::m::Entity
+     var $t18: u64
+  0: $t2 := borrow_local($t0)
+  1: $t1 := $t2
+  2: $t3 := copy($t1)
+  3: $t4 := test_variant 0x815::m::Entity::Person($t3)
+  4: if ($t4) goto 17 else goto 5
+  5: label L2
+  6: $t5 := move($t1)
+  7: $t6 := test_variant 0x815::m::Entity::Institution($t5)
+  8: if ($t6) goto 9 else goto 14
+  9: label L4
+ 10: $t7 := move($t0)
+ 11: ($t8, $t9) := unpack_variant 0x815::m::Entity::Institution($t7)
+ 12: drop($t9)
+ 13: return $t8
+ 14: label L3
+ 15: $t10 := 0
+ 16: return $t10
+ 17: label L0
+ 18: $t11 := copy($t1)
+ 19: $t12 := borrow_variant_field<0x815::m::Entity::Person>.id($t11)
+ 20: $t13 := read_ref($t12)
+ 21: $t14 := 0
+ 22: $t15 := >($t13, $t14)
+ 23: if ($t15) goto 24 else goto 5
+ 24: label L5
+ 25: $t16 := move($t1)
+ 26: drop($t16)
+ 27: $t17 := move($t0)
+ 28: $t18 := unpack_variant 0x815::m::Entity::Person($t17)
+ 29: return $t18
+}
+
+--- Raw Generated AST
+_t2: &Entity = Borrow(Immutable)(self);
+_t1: &Entity = _t2;
+_t3: &Entity = _t1;
+_t4: bool = test_variants m::Entity::Person(_t3);
+loop {
+  loop {
+    if (Not(_t4)) break;
+    _t11: &Entity = _t1;
+    _t12: &u64 = select_variants m::Entity.Person.id(_t11);
+    _t13: u64 = Deref(_t12);
+    _t14: u64 = 0;
+    _t15: bool = Gt(_t13, _t14);
+    if (Not(_t15)) break;
+    break[1]
+  };
+  _t5: &Entity = _t1;
+  _t6: bool = test_variants m::Entity::Institution(_t5);
+  loop {
+    if (Not(_t6)) break;
+    _t7: Entity = self;
+    m::Entity::Institution{ id: _t8, admin: _t9 } = _t7;
+    return _t8
+  };
+  _t10: u64 = 0;
+  return _t10
+};
+_t16: &Entity = _t1;
+_t17: Entity = self;
+m::Entity::Person{ id: _t18 } = _t17;
+return _t18
+
+--- Assign-Transformed Generated AST
+_t1: &Entity = Borrow(Immutable)(self);
+loop {
+  loop {
+    if (Not(test_variants m::Entity::Person(_t1))) break;
+    _t13: u64 = Deref(select_variants m::Entity.Person.id(_t1));
+    if (Not(Gt(_t13, 0))) break;
+    break[1]
+  };
+  loop {
+    if (Not(test_variants m::Entity::Institution(_t1))) break;
+    m::Entity::Institution{ id: _t8, admin: _t9 } = self;
+    return _t8
+  };
+  return 0
+};
+m::Entity::Person{ id: _t18 } = self;
+return _t18
+
+--- If-Transformed Generated AST
+_t1: &Entity = Borrow(Immutable)(self);
+loop {
+  if test_variants m::Entity::Person(_t1) {
+    _t13: u64 = Deref(select_variants m::Entity.Person.id(_t1));
+    if (Gt(_t13, 0)) break
+  };
+  if test_variants m::Entity::Institution(_t1) {
+    m::Entity::Institution{ id: _t8, admin: _t9 } = self;
+    return _t8
+  };
+  return 0
+};
+m::Entity::Person{ id: _t18 } = self;
+return _t18
+
+--- Var-Bound Generated AST
+{
+  let _t1: &Entity = Borrow(Immutable)(self);
+  loop {
+    if (test_variants m::Entity::Person(_t1)) {
+      let _t13: u64 = Deref(select_variants m::Entity.Person.id(_t1));
+      if (Gt(_t13, 0)) break
+    };
+    if (test_variants m::Entity::Institution(_t1)) {
+      let m::Entity::Institution{ id: _t8, admin: _t9 } = self;
+      return _t8
+    };
+    return 0
+  };
+  {
+    let m::Entity::Person{ id: _t18 } = self;
+    return _t18
+  }
+}
+
+=== Sourcified Output ============================================
+module 0x815::m {
+    enum Entity has drop {
+        Person {
+            id: u64,
+        }
+        Institution {
+            id: u64,
+            admin: u64,
+        }
+    }
+    fun id(self: &Entity): u64 {
+        loop {
+            if (!(self is Person)) {
+                if (self is Institution) break;
+                abort 14566554180833181697
+            };
+            return *&self.id
+        };
+        *&self.id
+    }
+    fun id2(self: Entity): u64 {
+        let _v0 = &self;
+        loop {
+            if (_v0 is Person) {
+                let _v1 = *&_v0.id;
+                if (_v1 > 0) break
+            };
+            if (_v0 is Institution) {
+                let Entity::Institution{id: _v2, admin: _v3} = self;
+                return _v2
+            };
+            return 0
+        };
+        let Entity::Person{id: _v4} = self;
+        _v4
+    }
+}

@@ -1,0 +1,70 @@
+============ bytecode before first stackless bytecode pipeline ================
+
+[variant baseline]
+fun m::dead($t0: u64): u64 {
+     var $t1: u64
+  0: $t0 := infer($t0)
+  1: $t1 := infer($t0)
+  2: return $t1
+}
+
+============ bytecode before second stackless bytecode pipeline ================
+
+[variant baseline]
+fun m::dead($t0: u64): u64 {
+     var $t1: u64
+  0: $t0 := infer($t0)
+  1: $t1 := infer($t0)
+  2: return $t1
+}
+
+============ after DeadStoreElimination: ================
+
+[variant baseline]
+fun m::dead($t0: u64): u64 {
+     var $t1: u64
+  0: $t1 := move($t0)
+  1: return $t1
+}
+
+============ after VariableCoalescingAnnotator: ================
+
+[variant baseline]
+fun m::dead($t0: u64): u64 {
+     var $t1: u64
+     # live vars: $t0
+     # events: b:$t0, e:$t0, b:$t1
+  0: $t1 := move($t0)
+     # live vars: $t1
+     # events: e:$t1
+  1: return $t1
+}
+
+============ after VariableCoalescingTransformer: ================
+
+[variant baseline]
+fun m::dead($t0: u64): u64 {
+     var $t1: u64 [unused]
+  0: $t0 := move($t0)
+  1: return $t0
+}
+
+============ after DeadStoreElimination: ================
+
+[variant baseline]
+fun m::dead($t0: u64): u64 {
+     var $t1: u64 [unused]
+  0: return $t0
+}
+
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0xc0ffee::m
+// Function definition at index 0
+fun dead(l0: u64): u64
+    move_loc l0
+    ret
+
+
+============ bytecode verification succeeded ========

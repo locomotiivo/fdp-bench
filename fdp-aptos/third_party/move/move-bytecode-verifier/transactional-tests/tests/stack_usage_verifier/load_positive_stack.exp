@@ -1,0 +1,49 @@
+processed 6 tasks
+task 0 lines 1-6:  run [main() {]
+Error: Script execution failed with VMError: {
+    major_status: POSITIVE_STACK_SIZE_AT_BLOCK_END,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 0)],
+}
+task 1 lines 8-13:  run [main() {]
+Error: Script execution failed with VMError: {
+    major_status: POSITIVE_STACK_SIZE_AT_BLOCK_END,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 0)],
+}
+task 2 lines 15-20:  run [main() {]
+Error: Script execution failed with VMError: {
+    major_status: POSITIVE_STACK_SIZE_AT_BLOCK_END,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 0)],
+}
+task 3 lines 22-27:  run [main() {]
+Error: Script execution failed with VMError: {
+    major_status: POSITIVE_STACK_SIZE_AT_BLOCK_END,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 0)],
+}
+task 4 lines 29-34:  run [main() {]
+Error: Script execution failed with VMError: {
+    major_status: POSITIVE_STACK_SIZE_AT_BLOCK_END,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 0)],
+}
+task 5 lines 36-41:  run [main() {]
+Error: Script execution failed with VMError: {
+    major_status: POSITIVE_STACK_SIZE_AT_BLOCK_END,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [(FunctionDefinitionIndex(0), 0)],
+}

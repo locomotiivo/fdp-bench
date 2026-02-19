@@ -1,0 +1,449 @@
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0xc0ffee::m
+struct Box has drop
+  x: u64
+
+enum CommonFields
+  Foo
+    x: u64
+    y: u64
+  Bar
+    x: u64
+    z: u64
+
+enum CommonFieldsAtDifferentOffset has drop
+  Foo
+    x: u64
+    y: u64
+  Bar
+    x: u64
+    z: u64
+  Baz
+    z: u64
+  Balt
+    foo: u8
+    z: u64
+
+enum Inner
+  Inner1
+    x: u64
+  Inner2
+    x: u64
+    y: u64
+
+enum Option<T0> has drop
+  None
+  Some
+    value: T0
+
+enum Outer
+  None
+  One
+    i: Inner
+  Two
+    i: Inner
+    b: Box
+
+// Function definition at index 0
+#[persistent] public fun inner_value(l0: Inner): u64
+    local l1: &Inner
+    local l2: u64
+    local l3: u64
+    borrow_loc l0
+    st_loc l1
+    copy_loc l1
+    test_variant Inner, Inner1
+    br_false l0
+    // @5
+    move_loc l1
+    pop
+    move_loc l0
+    unpack_variant Inner, Inner1
+    ret
+    // @10
+l0: move_loc l1
+    test_variant Inner, Inner2
+    br_false l1
+    move_loc l0
+    unpack_variant Inner, Inner2
+    // @15
+    add
+    ret
+l1: ld_u64 14566554180833181697
+    abort
+
+// Function definition at index 1
+#[persistent] public fun is_inner1(l0: &Inner): bool
+    move_loc l0
+    test_variant Inner, Inner1
+    ret
+
+// Function definition at index 2
+#[persistent] public fun is_some<T0>(l0: &Option<T0>): bool
+    copy_loc l0
+    test_variant Option<T0>, None
+    br_false l0
+    move_loc l0
+    pop
+    // @5
+    ld_false
+    ret
+l0: move_loc l0
+    test_variant Option<T0>, Some
+    br_false l1
+    // @10
+    ld_true
+    ret
+l1: ld_u64 14566554180833181697
+    abort
+
+// Function definition at index 3
+#[persistent] public fun is_some_dropped<T0: drop>(l0: Option<T0>): bool
+    borrow_loc l0
+    test_variant Option<T0>, None
+    br_false l0
+    move_loc l0
+    unpack_variant Option<T0>, None
+    // @5
+    ld_false
+    ret
+l0: ld_true
+    ret
+
+// Function definition at index 4
+#[persistent] public fun is_some_specialized(l0: &Option<Option<u64>>): bool
+    copy_loc l0
+    test_variant Option<Option<u64>>, None
+    br_false l0
+    move_loc l0
+    pop
+    // @5
+    ld_false
+    ret
+l0: copy_loc l0
+    test_variant Option<Option<u64>>, Some
+    br_true l1
+    // @10
+    branch l2
+l2: copy_loc l0
+    test_variant Option<Option<u64>>, Some
+    br_true l3
+    move_loc l0
+    // @15
+    pop
+l5: ld_u64 14566554180833181697
+    abort
+l3: move_loc l0
+    borrow_variant_field Option<Option<u64>>, Some::value
+    // @20
+    test_variant Option<u64>, Some
+    br_true l4
+    branch l5
+l4: ld_true
+    ret
+    // @25
+l1: copy_loc l0
+    borrow_variant_field Option<Option<u64>>, Some::value
+    test_variant Option<u64>, None
+    br_true l6
+    branch l2
+    // @30
+l6: move_loc l0
+    pop
+    ld_false
+    ret
+
+// Function definition at index 5
+#[persistent] public fun outer_value(l0: Outer): u64
+    local l1: &Outer
+    local l2: Box
+    borrow_loc l0
+    st_loc l1
+    copy_loc l1
+    test_variant Outer, None
+    br_false l0
+    // @5
+    move_loc l1
+    pop
+    move_loc l0
+    unpack_variant Outer, None
+    ld_u64 0
+    // @10
+    ret
+l0: copy_loc l1
+    test_variant Outer, One
+    br_false l1
+    move_loc l1
+    // @15
+    pop
+    move_loc l0
+    unpack_variant Outer, One
+    call inner_value
+    ret
+    // @20
+l1: move_loc l1
+    test_variant Outer, Two
+    br_false l2
+    move_loc l0
+    unpack_variant Outer, Two
+    // @25
+    st_loc l2
+    call inner_value
+    borrow_loc l2
+    borrow_field Box, x
+    read_ref
+    // @30
+    add
+    ret
+l2: ld_u64 14566554180833181697
+    abort
+
+// Function definition at index 6
+#[persistent] public fun outer_value_nested(l0: Outer): u64
+    local l1: &Outer
+    local l2: Box
+    borrow_loc l0
+    st_loc l1
+    copy_loc l1
+    test_variant Outer, None
+    br_false l0
+    // @5
+    move_loc l1
+    pop
+    move_loc l0
+    unpack_variant Outer, None
+    ld_u64 0
+    // @10
+    ret
+l0: copy_loc l1
+    test_variant Outer, One
+    br_true l1
+    branch l2
+    // @15
+l2: copy_loc l1
+    test_variant Outer, One
+    br_false l3
+    move_loc l1
+    pop
+    // @20
+    move_loc l0
+    unpack_variant Outer, One
+    call inner_value
+    ret
+l3: move_loc l1
+    // @25
+    test_variant Outer, Two
+    br_false l4
+    move_loc l0
+    unpack_variant Outer, Two
+    st_loc l2
+    // @30
+    call inner_value
+    borrow_loc l2
+    borrow_field Box, x
+    read_ref
+    add
+    // @35
+    ret
+l4: ld_u64 14566554180833181697
+    abort
+l1: copy_loc l1
+    borrow_variant_field Outer, One::i
+    // @40
+    test_variant Inner, Inner1
+    br_true l5
+    branch l2
+l5: move_loc l1
+    pop
+    // @45
+    move_loc l0
+    unpack_variant Outer, One
+    unpack_variant Inner, Inner1
+    ret
+
+// Function definition at index 7
+#[persistent] public fun outer_value_with_cond(l0: Outer): u64
+    local l1: &Outer
+    local l2: Box
+    borrow_loc l0
+    st_loc l1
+    copy_loc l1
+    test_variant Outer, None
+    br_false l0
+    // @5
+    move_loc l1
+    pop
+    move_loc l0
+    unpack_variant Outer, None
+    ld_u64 0
+    // @10
+    ret
+l0: copy_loc l1
+    test_variant Outer, One
+    br_true l1
+    branch l2
+    // @15
+l2: copy_loc l1
+    test_variant Outer, One
+    br_false l3
+    move_loc l1
+    pop
+    // @20
+    move_loc l0
+    unpack_variant Outer, One
+    call inner_value
+    ret
+l3: move_loc l1
+    // @25
+    test_variant Outer, Two
+    br_false l4
+    move_loc l0
+    unpack_variant Outer, Two
+    st_loc l2
+    // @30
+    call inner_value
+    borrow_loc l2
+    borrow_field Box, x
+    read_ref
+    add
+    // @35
+    ret
+l4: ld_u64 14566554180833181697
+    abort
+l1: copy_loc l1
+    borrow_variant_field Outer, One::i
+    // @40
+    call is_inner1
+    br_true l5
+    branch l2
+l5: move_loc l1
+    pop
+    // @45
+    move_loc l0
+    unpack_variant Outer, One
+    call inner_value
+    ld_u64 2
+    mod
+    // @50
+    ret
+
+// Function definition at index 8
+#[persistent] public fun outer_value_with_cond_ref(l0: &Outer): bool
+    copy_loc l0
+    test_variant Outer, None
+    br_false l0
+    move_loc l0
+    pop
+    // @5
+    ld_false
+    ret
+l0: copy_loc l0
+    test_variant Outer, One
+    br_true l1
+    // @10
+    branch l2
+l2: copy_loc l0
+    test_variant Outer, One
+    br_false l3
+    move_loc l0
+    // @15
+    borrow_variant_field Outer, One::i
+    call is_inner1
+    ret
+l3: copy_loc l0
+    test_variant Outer, Two
+    // @20
+    br_false l4
+    move_loc l0
+    borrow_variant_field Outer, Two::i
+    call is_inner1
+    ret
+    // @25
+l4: move_loc l0
+    pop
+    ld_u64 14566554180833181697
+    abort
+l1: copy_loc l0
+    // @30
+    borrow_variant_field Outer, One::i
+    call is_inner1
+    br_true l5
+    branch l2
+l5: move_loc l0
+    // @35
+    pop
+    ld_true
+    ret
+
+// Function definition at index 9
+fun select_common_fields(l0: CommonFields): u64
+    local l1: &CommonFields
+    local l2: u64
+    local l3: u64
+    borrow_loc l0
+    borrow_variant_field CommonFields, Foo::x, Bar::x
+    read_ref
+    st_loc l2
+    borrow_loc l0
+    // @5
+    st_loc l1
+    copy_loc l1
+    test_variant CommonFields, Foo
+    br_false l0
+    move_loc l1
+    // @10
+    pop
+    move_loc l0
+    unpack_variant CommonFields, Foo
+    st_loc l3
+    pop
+    // @15
+l2: move_loc l2
+    move_loc l3
+    add
+    ret
+l0: move_loc l1
+    // @20
+    test_variant CommonFields, Bar
+    br_false l1
+    move_loc l0
+    unpack_variant CommonFields, Bar
+    st_loc l3
+    // @25
+    pop
+    branch l2
+l1: ld_u64 14566554180833181697
+    abort
+
+// Function definition at index 10
+fun select_common_fields_different_offset(l0: CommonFieldsAtDifferentOffset): u64
+    local l1: &CommonFieldsAtDifferentOffset
+    local l2: &u64
+    borrow_loc l0
+    st_loc l1
+    copy_loc l1
+    test_variant CommonFieldsAtDifferentOffset, Bar
+    br_false l0
+    // @5
+    branch l1
+l1: move_loc l1
+    borrow_variant_field CommonFieldsAtDifferentOffset, Bar::z, Balt::z
+    st_loc l2
+l3: move_loc l2
+    // @10
+    read_ref
+    ret
+l0: copy_loc l1
+    test_variant CommonFieldsAtDifferentOffset, Balt
+    br_false l2
+    // @15
+    branch l1
+l2: move_loc l1
+    borrow_variant_field CommonFieldsAtDifferentOffset, Baz::z
+    st_loc l2
+    branch l3
+
+
+============ bytecode verification succeeded ========

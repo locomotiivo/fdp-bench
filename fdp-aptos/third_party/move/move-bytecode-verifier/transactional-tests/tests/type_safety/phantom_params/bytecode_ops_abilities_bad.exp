@@ -1,0 +1,66 @@
+processed 9 tasks
+task 0 lines 1-8:  publish [// This file contains tests checking that type arguments used in phantom position]
+task 1 lines 10-22:  publish [module 0x1.M2 {]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000001::M2'. Got VMError: {
+    major_status: WRITEREF_WITHOUT_DROP_ABILITY,
+    sub_status: None,
+    location: 0x1::M2,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 3)],
+}
+task 2 lines 24-36:  publish [module 0x1.M3 {]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000001::M3'. Got VMError: {
+    major_status: POP_WITHOUT_DROP_ABILITY,
+    sub_status: None,
+    location: 0x1::M3,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 2)],
+}
+task 3 lines 38-49:  publish [ module 0x1.M4 {]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000001::M4'. Got VMError: {
+    major_status: UNSAFE_RET_UNUSED_VALUES_WITHOUT_DROP,
+    sub_status: None,
+    location: 0x1::M4,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 0)],
+}
+task 4 lines 51-61:  publish [ module 0x1.M5 {]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000001::M5'. Got VMError: {
+    major_status: COPYLOC_WITHOUT_COPY_ABILITY,
+    sub_status: None,
+    location: 0x1::M5,
+    indices: [(FunctionDefinition, 0)],
+    offsets: [(FunctionDefinitionIndex(0), 0)],
+}
+task 5 lines 63-76:  publish [ module 0x1.M6 {]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000001::M6'. Got VMError: {
+    major_status: CONSTRAINT_NOT_SATISFIED,
+    sub_status: None,
+    location: 0x1::M6,
+    indices: [(Signature, 2), (StructDefInstantiation, 0), (FunctionDefinition, 0)],
+    offsets: [],
+}
+task 6 lines 78-89:  publish [ module 0x1.M7 {]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000001::M7'. Got VMError: {
+    major_status: CONSTRAINT_NOT_SATISFIED,
+    sub_status: None,
+    location: 0x1::M7,
+    indices: [(Signature, 2), (StructDefInstantiation, 0), (FunctionDefinition, 0)],
+    offsets: [],
+}
+task 7 lines 91-102:  publish [ module 0x1.M8 {]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000001::M8'. Got VMError: {
+    major_status: CONSTRAINT_NOT_SATISFIED,
+    sub_status: None,
+    location: 0x1::M8,
+    indices: [(Signature, 2), (StructDefInstantiation, 0), (FunctionDefinition, 0)],
+    offsets: [],
+}
+task 8 lines 104-115:  publish [module 0x1.M9 {]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000001::M9'. Got VMError: {
+    major_status: CONSTRAINT_NOT_SATISFIED,
+    sub_status: None,
+    location: 0x1::M9,
+    indices: [(Signature, 1)],
+    offsets: [],
+}

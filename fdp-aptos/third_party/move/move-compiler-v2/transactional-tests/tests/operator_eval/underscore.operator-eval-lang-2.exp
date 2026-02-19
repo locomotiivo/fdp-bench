@@ -1,0 +1,184 @@
+processed 13 tasks
+task 0 lines 1-77:  publish [module 0xc0ffee::m {]
+Error: compilation errors:
+ error: undeclared `_`
+  ┌─ TEMPFILE:7:17
+  │
+7 │         let x = _ + 3;
+  │                 ^
+
+error: undeclared `_`
+  ┌─ TEMPFILE:8:13
+  │
+8 │         x + _
+  │             ^
+
+error: undeclared `_`
+   ┌─ TEMPFILE:12:17
+   │
+12 │         let x = _ + 3;
+   │                 ^
+
+error: undeclared `_`
+   ┌─ TEMPFILE:13:13
+   │
+13 │         _ = _ + 1;
+   │             ^
+
+error: undeclared `_`
+   ┌─ TEMPFILE:14:13
+   │
+14 │         x + _
+   │             ^
+
+error: undeclared `_`
+   ┌─ TEMPFILE:18:13
+   │
+18 │         _ = _ + 2;
+   │             ^
+
+error: undeclared `_`
+   ┌─ TEMPFILE:19:9
+   │
+19 │         _
+   │         ^
+
+error: undeclared `_`
+   ┌─ TEMPFILE:23:13
+   │
+23 │         _ = _ + 3;
+   │             ^
+
+error: undeclared `_`
+   ┌─ TEMPFILE:24:9
+   │
+24 │         _
+   │         ^
+
+error: undeclared `_`
+   ┌─ TEMPFILE:28:10
+   │
+28 │          _
+   │          ^
+
+error: undeclared `_`
+   ┌─ TEMPFILE:32:9
+   │
+32 │         _  // undefined
+   │         ^
+
+error: undeclared `_`
+   ┌─ TEMPFILE:35:17
+   │
+35 │         let _ = _;
+   │                 ^
+
+error: undeclared `_`
+   ┌─ TEMPFILE:36:9
+   │
+36 │         _
+   │         ^
+
+error: cannot pass `integer` to a function which expects argument of type `|u64|u64`
+   ┌─ TEMPFILE:48:21
+   │
+48 │         fun10(4, 3, 2)
+   │                     ^
+
+
+task 1 lines 79-79:  run 0xc0ffee::m::test --args 4
+Error: Function execution failed with VMError: {
+    major_status: LINKER_ERROR,
+    sub_status: None,
+    location: undefined,
+    indices: [],
+    offsets: [],
+}
+task 2 lines 81-81:  run 0xc0ffee::m::test3 --args 5
+Error: Function execution failed with VMError: {
+    major_status: LINKER_ERROR,
+    sub_status: None,
+    location: undefined,
+    indices: [],
+    offsets: [],
+}
+task 3 lines 83-83:  run 0xc0ffee::m::test4 --args 5
+Error: Function execution failed with VMError: {
+    major_status: LINKER_ERROR,
+    sub_status: None,
+    location: undefined,
+    indices: [],
+    offsets: [],
+}
+task 4 lines 85-85:  run 0xc0ffee::m::test5 --args 5
+Error: Function execution failed with VMError: {
+    major_status: LINKER_ERROR,
+    sub_status: None,
+    location: undefined,
+    indices: [],
+    offsets: [],
+}
+task 5 lines 87-87:  run 0xc0ffee::m::test6 --args 5
+Error: Function execution failed with VMError: {
+    major_status: LINKER_ERROR,
+    sub_status: None,
+    location: undefined,
+    indices: [],
+    offsets: [],
+}
+task 6 lines 89-89:  run 0xc0ffee::m::test7 --args 5
+Error: Function execution failed with VMError: {
+    major_status: LINKER_ERROR,
+    sub_status: None,
+    location: undefined,
+    indices: [],
+    offsets: [],
+}
+task 7 lines 91-91:  run 0xc0ffee::m::test8 --args 5
+Error: Function execution failed with VMError: {
+    major_status: LINKER_ERROR,
+    sub_status: None,
+    location: undefined,
+    indices: [],
+    offsets: [],
+}
+task 8 lines 93-93:  run 0xc0ffee::m::test9
+Error: Function execution failed with VMError: {
+    major_status: LINKER_ERROR,
+    sub_status: None,
+    location: undefined,
+    indices: [],
+    offsets: [],
+}
+task 9 lines 95-95:  run 0xc0ffee::m::test10a
+Error: Function execution failed with VMError: {
+    major_status: LINKER_ERROR,
+    sub_status: None,
+    location: undefined,
+    indices: [],
+    offsets: [],
+}
+task 10 lines 97-97:  run 0xc0ffee::m::test10b
+Error: Function execution failed with VMError: {
+    major_status: LINKER_ERROR,
+    sub_status: None,
+    location: undefined,
+    indices: [],
+    offsets: [],
+}
+task 11 lines 99-99:  run 0xc0ffee::m::test10c
+Error: Function execution failed with VMError: {
+    major_status: LINKER_ERROR,
+    sub_status: None,
+    location: undefined,
+    indices: [],
+    offsets: [],
+}
+task 12 lines 101-101:  run 0xc0ffee::m::test11
+Error: Function execution failed with VMError: {
+    major_status: LINKER_ERROR,
+    sub_status: None,
+    location: undefined,
+    indices: [],
+    offsets: [],
+}

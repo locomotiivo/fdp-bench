@@ -1,0 +1,66 @@
+processed 9 tasks
+task 0 lines 1-15:  publish [module 0x1.M {]
+task 1 lines 17-22:  run [import 0x1.M;]
+Error: Script execution failed with VMError: {
+    major_status: CONSTRAINT_NOT_SATISFIED,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [],
+}
+task 2 lines 24-29:  run [import 0x1.M;]
+Error: Script execution failed with VMError: {
+    major_status: CONSTRAINT_NOT_SATISFIED,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [],
+}
+task 3 lines 31-36:  run [import 0x1.M;]
+Error: Script execution failed with VMError: {
+    major_status: CONSTRAINT_NOT_SATISFIED,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [],
+}
+task 4 lines 38-43:  run [import 0x1.M;]
+Error: Script execution failed with VMError: {
+    major_status: CONSTRAINT_NOT_SATISFIED,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [],
+}
+task 5 lines 45-50:  run [import 0x1.M;]
+Error: Script execution failed with VMError: {
+    major_status: CONSTRAINT_NOT_SATISFIED,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [],
+}
+task 6 lines 52-57:  run [import 0x1.M;]
+Error: Script execution failed with VMError: {
+    major_status: CONSTRAINT_NOT_SATISFIED,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [],
+}
+task 7 lines 59-64:  run [import 0x1.M;]
+Error: Script execution failed with VMError: {
+    major_status: CONSTRAINT_NOT_SATISFIED,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [],
+}
+task 8 lines 66-71:  run [import 0x1.M;]
+Error: Script execution failed with VMError: {
+    major_status: CONSTRAINT_NOT_SATISFIED,
+    sub_status: None,
+    location: script,
+    indices: [],
+    offsets: [],
+}

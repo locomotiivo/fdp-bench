@@ -1,0 +1,1 @@
+# Moved to aptos-move/framework/aptos-experimental/doc/large_packages.md

@@ -1,0 +1,142 @@
+============ after FlushWritesProcessor: ================
+
+[variant baseline]
+fun m::consume($t0: u64, $t1: &u64) {
+     # live vars: $t0, $t1
+  0: drop($t1)
+     # live vars:
+  1: return ()
+}
+
+
+[variant baseline]
+fun m::one(): u64 {
+     var $t0: u64
+     # live vars:
+  0: $t0 := 1
+     # live vars: $t0
+  1: return $t0
+}
+
+
+[variant baseline]
+public fun m::test($t0: vector<u64>) {
+     var $t1: u64
+     var $t2: &vector<u64> [unused]
+     var $t3: &vector<u64>
+     var $t4: u64
+     var $t5: bool
+     var $t6: u64
+     var $t7: u64
+     var $t8: &u64 [unused]
+     var $t9: &u64
+     var $t10: &vector<u64>
+     var $t11: &u64 [unused]
+     var $t12: u64 [unused]
+     var $t13: u64 [unused]
+     var $t14: u64 [unused]
+     var $t15: u64 [unused]
+     # flush: $t1
+     # live vars: $t0
+  0: $t1 := m::one()
+     # flush: $t3
+     # live vars: $t0, $t1
+  1: $t3 := borrow_local($t0)
+     # flush: $t4
+     # live vars: $t1, $t3
+  2: $t4 := 0
+     # live vars: $t1, $t3, $t4
+  3: label L0
+     # live vars: $t1, $t3, $t4
+  4: $t6 := copy($t4)
+     # live vars: $t1, $t3, $t4, $t6
+  5: $t7 := vector::length<u64>($t3)
+     # live vars: $t1, $t3, $t4, $t6, $t7
+  6: $t5 := <($t6, $t7)
+     # live vars: $t1, $t3, $t4, $t5
+  7: if ($t5) goto 8 else goto 18
+     # live vars: $t1, $t3, $t4
+  8: label L2
+     # live vars: $t1, $t3, $t4
+  9: $t10 := copy($t3)
+     # flush: $t9
+     # live vars: $t1, $t3, $t4, $t10
+ 10: $t9 := vector::borrow<u64>($t10, $t4)
+     # live vars: $t1, $t3, $t4, $t9
+ 11: $t6 := copy($t1)
+     # live vars: $t1, $t3, $t4, $t6, $t9
+ 12: m::consume($t6, $t9)
+     # live vars: $t1, $t3, $t4
+ 13: $t6 := move($t4)
+     # live vars: $t1, $t3, $t6
+ 14: $t7 := 1
+     # live vars: $t1, $t3, $t6, $t7
+ 15: $t6 := +($t6, $t7)
+     # flush: $t4
+     # live vars: $t1, $t3, $t6
+ 16: $t4 := move($t6)
+     # live vars: $t1, $t3, $t4
+ 17: goto 3
+     # live vars: $t1, $t3, $t4
+ 18: label L3
+     # live vars: $t3
+ 19: drop($t3)
+     # live vars:
+ 20: return ()
+}
+
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0xc0ffee::m
+// Function definition at index 0
+fun consume(l0: u64, l1: &u64)
+    move_loc l1
+    pop
+    ret
+
+// Function definition at index 1
+fun one(): u64
+    ld_u64 1
+    ret
+
+// Function definition at index 2
+#[persistent] public fun test(l0: vector<u64>)
+    local l1: u64
+    local l2: &vector<u64>
+    local l3: u64
+    local l4: &u64
+    call one
+    st_loc l1
+    borrow_loc l0
+    st_loc l2
+    ld_u64 0
+    // @5
+    st_loc l3
+l1: copy_loc l3
+    copy_loc l2
+    vec_len <u64>
+    lt
+    // @10
+    br_false l0
+    copy_loc l2
+    copy_loc l3
+    vec_borrow <u64>
+    st_loc l4
+    // @15
+    copy_loc l1
+    move_loc l4
+    call consume
+    move_loc l3
+    ld_u64 1
+    // @20
+    add
+    st_loc l3
+    branch l1
+l0: move_loc l2
+    pop
+    // @25
+    ret
+
+
+============ bytecode verification succeeded ========

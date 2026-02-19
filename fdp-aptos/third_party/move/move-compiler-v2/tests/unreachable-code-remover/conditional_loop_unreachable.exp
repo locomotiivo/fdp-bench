@@ -1,0 +1,179 @@
+============ bytecode before first stackless bytecode pipeline ================
+
+[variant baseline]
+fun m::test($t0: bool, $t1: bool) {
+     var $t2: u64
+     var $t3: u64
+     var $t4: u64
+     var $t5: u64
+     var $t6: u64
+     var $t7: u64
+     var $t8: u64
+     var $t9: u64
+  0: label L0
+  1: if ($t0) goto 2 else goto 23
+  2: label L2
+  3: if ($t1) goto 4 else goto 14
+  4: label L5
+  5: label L8
+  6: goto 5
+  7: label L9
+  8: $t2 := 0
+  9: $t4 := infer($t2)
+ 10: $t5 := 1
+ 11: $t3 := +($t4, $t5)
+ 12: $t2 := infer($t3)
+ 13: goto 16
+ 14: label L6
+ 15: goto 27
+ 16: label L7
+ 17: $t6 := 0
+ 18: $t8 := infer($t6)
+ 19: $t9 := 1
+ 20: $t7 := +($t8, $t9)
+ 21: $t6 := infer($t7)
+ 22: goto 25
+ 23: label L3
+ 24: goto 27
+ 25: label L4
+ 26: goto 0
+ 27: label L1
+ 28: return ()
+}
+
+
+Diagnostics:
+warning: This assignment/binding to the left-hand-side variable `i` is unused. Consider removing this assignment/binding, or prefixing the left-hand-side variable with an underscore (e.g., `_i`), or renaming to `_`
+  ┌─ tests/unreachable-code-remover/conditional_loop_unreachable.move:7:17
+  │
+7 │                 i = i + 1;
+  │                 ^^^^^^^^^
+
+warning: This assignment/binding to the left-hand-side variable `i` is unused. Consider removing this assignment/binding, or prefixing the left-hand-side variable with an underscore (e.g., `_i`), or renaming to `_`
+   ┌─ tests/unreachable-code-remover/conditional_loop_unreachable.move:12:13
+   │
+12 │             i = i + 1;
+   │             ^^^^^^^^^
+
+============ bytecode before second stackless bytecode pipeline ================
+
+[variant baseline]
+fun m::test($t0: bool, $t1: bool) {
+     var $t2: u64
+     var $t3: u64
+     var $t4: u64
+     var $t5: u64
+     var $t6: u64
+     var $t7: u64
+     var $t8: u64
+     var $t9: u64
+  0: label L0
+  1: if ($t0) goto 2 else goto 23
+  2: label L2
+  3: if ($t1) goto 4 else goto 14
+  4: label L5
+  5: label L8
+  6: goto 5
+  7: label L9
+  8: $t2 := 0
+  9: $t4 := infer($t2)
+ 10: $t5 := 1
+ 11: $t3 := +($t4, $t5)
+ 12: $t2 := infer($t3)
+ 13: goto 16
+ 14: label L6
+ 15: goto 27
+ 16: label L7
+ 17: $t6 := 0
+ 18: $t8 := infer($t6)
+ 19: $t9 := 1
+ 20: $t7 := +($t8, $t9)
+ 21: $t6 := infer($t7)
+ 22: goto 25
+ 23: label L3
+ 24: goto 27
+ 25: label L4
+ 26: goto 0
+ 27: label L1
+ 28: return ()
+}
+
+============ after UnreachableCodeProcessor: ================
+
+[variant baseline]
+fun m::test($t0: bool, $t1: bool) {
+     var $t2: u64 [unused]
+     var $t3: u64 [unused]
+     var $t4: u64 [unused]
+     var $t5: u64 [unused]
+     var $t6: u64 [unused]
+     var $t7: u64 [unused]
+     var $t8: u64 [unused]
+     var $t9: u64 [unused]
+     # maybe
+  0: if ($t0) goto 1 else goto 9
+     # maybe
+  1: label L2
+     # maybe
+  2: if ($t1) goto 3 else goto 7
+     # maybe
+  3: label L9
+     # maybe
+  4: goto 5
+     # maybe
+  5: label L8
+     # maybe
+  6: goto 5
+     # maybe
+  7: label L6
+     # maybe
+  8: return ()
+     # maybe
+  9: label L3
+     # maybe
+ 10: return ()
+}
+
+============ after UnreachableCodeRemover: ================
+
+[variant baseline]
+fun m::test($t0: bool, $t1: bool) {
+     var $t2: u64 [unused]
+     var $t3: u64 [unused]
+     var $t4: u64 [unused]
+     var $t5: u64 [unused]
+     var $t6: u64 [unused]
+     var $t7: u64 [unused]
+     var $t8: u64 [unused]
+     var $t9: u64 [unused]
+  0: if ($t0) goto 1 else goto 9
+  1: label L2
+  2: if ($t1) goto 3 else goto 7
+  3: label L9
+  4: goto 5
+  5: label L8
+  6: goto 5
+  7: label L6
+  8: return ()
+  9: label L3
+ 10: return ()
+}
+
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0xc0ffee::m
+// Function definition at index 0
+fun test(l0: bool, l1: bool)
+    move_loc l0
+    br_false l0
+    move_loc l1
+    br_false l1
+    branch l2
+    // @5
+l2: branch l2
+l1: ret
+l0: ret
+
+
+============ bytecode verification succeeded ========

@@ -1,0 +1,53 @@
+
+Diagnostics:
+warning: Unused value of parameter `x`. Consider removing the parameter, or prefixing with an underscore (e.g., `_x`), or binding to `_`
+   ┌─ tests/file-format-generator/globals.move:18:27
+   │
+18 │     fun write(a: address, x: u64): u64 acquires R {
+   │                           ^
+
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0x42::globals
+struct R has store + key
+  f: u64
+
+// Function definition at index 0
+fun check(l0: address): bool
+    move_loc l0
+    exists R
+    ret
+
+// Function definition at index 1
+fun publish(l0: &signer)
+    move_loc l0
+    ld_u64 1
+    pack R
+    move_to R
+    ret
+
+// Function definition at index 2
+fun read(l0: address): u64 acquires R
+    move_loc l0
+    borrow_global R
+    borrow_field R, f
+    read_ref
+    ret
+
+// Function definition at index 3
+fun write(l0: address, l1: u64): u64 acquires R
+    local l2: &mut R
+    move_loc l0
+    mut_borrow_global R
+    st_loc l2
+    ld_u64 2
+    move_loc l2
+    // @5
+    mut_borrow_field R, f
+    write_ref
+    ld_u64 9
+    ret
+
+
+============ bytecode verification succeeded ========

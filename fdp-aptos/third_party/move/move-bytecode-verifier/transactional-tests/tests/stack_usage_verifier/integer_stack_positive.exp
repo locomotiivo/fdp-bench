@@ -1,0 +1,49 @@
+processed 6 tasks
+task 0 lines 1-14:  publish [module 0x1.A {]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000001::A'. Got VMError: {
+    major_status: POSITIVE_STACK_SIZE_AT_BLOCK_END,
+    sub_status: None,
+    location: 0x1::A,
+    indices: [(FunctionDefinition, 1)],
+    offsets: [(FunctionDefinitionIndex(1), 0)],
+}
+task 1 lines 17-30:  publish [module 0x1.A {]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000001::A'. Got VMError: {
+    major_status: POSITIVE_STACK_SIZE_AT_BLOCK_END,
+    sub_status: None,
+    location: 0x1::A,
+    indices: [(FunctionDefinition, 1)],
+    offsets: [(FunctionDefinitionIndex(1), 0)],
+}
+task 2 lines 32-45:  publish [module 0x1.A {]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000001::A'. Got VMError: {
+    major_status: POSITIVE_STACK_SIZE_AT_BLOCK_END,
+    sub_status: None,
+    location: 0x1::A,
+    indices: [(FunctionDefinition, 1)],
+    offsets: [(FunctionDefinitionIndex(1), 0)],
+}
+task 3 lines 47-60:  publish [module 0x1.A {]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000001::A'. Got VMError: {
+    major_status: POSITIVE_STACK_SIZE_AT_BLOCK_END,
+    sub_status: None,
+    location: 0x1::A,
+    indices: [(FunctionDefinition, 1)],
+    offsets: [(FunctionDefinitionIndex(1), 0)],
+}
+task 4 lines 62-75:  publish [module 0x1.A {]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000001::A'. Got VMError: {
+    major_status: POSITIVE_STACK_SIZE_AT_BLOCK_END,
+    sub_status: None,
+    location: 0x1::A,
+    indices: [(FunctionDefinition, 1)],
+    offsets: [(FunctionDefinitionIndex(1), 0)],
+}
+task 5 lines 77-90:  publish [module 0x1.A {]
+Error: Unable to publish module '0000000000000000000000000000000000000000000000000000000000000001::A'. Got VMError: {
+    major_status: POSITIVE_STACK_SIZE_AT_BLOCK_END,
+    sub_status: None,
+    location: 0x1::A,
+    indices: [(FunctionDefinition, 1)],
+    offsets: [(FunctionDefinitionIndex(1), 0)],
+}

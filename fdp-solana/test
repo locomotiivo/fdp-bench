@@ -1,0 +1,12 @@
+#!/bin/bash
+
+while true; do
+    output=$(sudo umount /dev/nvme0n1 2>&1)
+    echo "$output"
+
+    if [[ "$output" == *"not mounted."* ]]; then
+        break
+    fi
+
+    sleep 1  # optional: avoid hammering the system
+done

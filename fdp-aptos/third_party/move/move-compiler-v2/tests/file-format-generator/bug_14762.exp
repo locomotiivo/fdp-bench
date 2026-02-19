@@ -1,0 +1,99 @@
+
+============ disassembled file-format ==================
+// Bytecode version v9
+module 0xc0ffee::m
+use 0x1::option
+use 0x1::vector
+struct T has copy + drop + store
+  issuer: vector<u8>
+  version: u64
+
+struct J has copy + drop + store
+  variant: u64
+
+struct S has copy + drop + store
+  entries: vector<T>
+
+// Function definition at index 0
+fun test(l0: &mut S, l1: vector<u8>): option::Option<T>
+    local l2: &vector<T>
+    local l3: bool
+    local l4: u64
+    local l5: u64
+    local l6: u64
+    local l7: u64
+    local l8: bool
+    local l9: option::Option<T>
+    copy_loc l0
+    borrow_field S, entries
+    st_loc l2
+    ld_false
+    st_loc l3
+    // @5
+    ld_u64 0
+    st_loc l4
+    ld_u64 0
+    copy_loc l2
+    vec_len <T>
+    // @10
+    st_loc l5
+    st_loc l6
+l4: copy_loc l6
+    copy_loc l5
+    lt
+    // @15
+    br_false l0
+    copy_loc l2
+    copy_loc l6
+    vec_borrow <T>
+    borrow_field T, issuer
+    // @20
+    read_ref
+    copy_loc l1
+    eq
+    br_false l1
+    ld_true
+    // @25
+    st_loc l3
+    move_loc l6
+    st_loc l4
+    branch l2
+    branch l1
+    // @30
+l1: move_loc l6
+    ld_u64 1
+    add
+    st_loc l6
+    branch l3
+    // @35
+l0: branch l2
+l3: branch l4
+l2: nop
+    move_loc l2
+    pop
+    // @40
+    move_loc l3
+    move_loc l4
+    st_loc l7
+    st_loc l8
+    move_loc l8
+    // @45
+    br_false l5
+    move_loc l0
+    mut_borrow_field S, entries
+    move_loc l7
+    call vector::remove<T>
+    // @50
+    call option::some<T>
+    st_loc l9
+    branch l6
+l5: move_loc l0
+    pop
+    // @55
+    call option::none<T>
+    st_loc l9
+l6: move_loc l9
+    ret
+
+
+============ bytecode verification succeeded ========
