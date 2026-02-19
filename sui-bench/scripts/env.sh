@@ -34,8 +34,21 @@ BENCH_COMPONENT="${BENCH_COMPONENT:-validator-with-fake-consensus}"
 export MAX_WRITE_BUFFER_SIZE_MB="${MAX_WRITE_BUFFER_SIZE_MB:-64}"
 export MAX_WRITE_BUFFER_NUMBER="${MAX_WRITE_BUFFER_NUMBER:-2}"
 
-# ── Store paths (depend on STREAMS set by caller) ─────────────────────
-# FDP mode: store goes into p1 (RocksDB manages WAL/SST placement)
+# ── Store paths (depend on STREAMS set by caller) ─────────────────────# Hybrid-semantic 8-PID mapping (WAL-semantic + per-CF routing):
+#
+# ┌──────┬───────────────┬───────────┬────────────────────────────────────────┐
+# │ PID  │ Directory       │ Temp      │ Content                                │
+# ├──────┼───────────────┼───────────┼────────────────────────────────────────┤
+# │ p0   │ wal/            │ HOTTEST   │ ALL WAL files (all DBs, seconds)        │
+# │ p1   │ obj_hot/        │ HOT       │ authority_db objects CFs (fresh L0)     │
+# │ p2   │ obj_cold/       │ WARM      │ authority_db objects CFs (compacted)    │
+# │ p3   │ ledger/         │ COOL      │ authority_db ledger CFs (append-only)   │
+# │ p4   │ consensus/      │ EPHEMERAL │ consensus_db (FIFO, per-epoch drop)     │
+# │ p5   │ epoch/          │ EPHEMERAL │ epoch_db (entire DB dropped)            │
+# │ p6   │ checkpoint/     │ MEDIUM    │ checkpoint_db (bulk-pruned)             │
+# │ p7   │ meta/           │ COLDEST   │ committee_store + metadata + fallback   │
+# └──────┴───────────────┴───────────┴────────────────────────────────────────┘
+## FDP mode: store goes into p1 (RocksDB manages WAL/SST placement)
 # Non-FDP:  store goes into p7 (single stream)
 sui_store_path() {
   local mode="$1"

@@ -60,18 +60,19 @@ ERA2RLP_BIN="${ERA2RLP_BIN:-$HOME/go-ethereum/build/bin/era2rlp}"
 #   - Early Ethereum blocks (0-600K) produce only ~200 MB of state
 #   - Transaction volume grows sharply from block ~2M onward (ICOs, DeFi)
 #   - By block 3-4M, uncompressed state DB reaches ~30-60 GB
-#   - GC onset at ~48 GB (75% of 64 GB)
+#   - GC onset at ~75% utilization (74 of 98 flash lines consumed)
 #
-# Default: 2.45M blocks — fills the 64 GB SSD and triggers GC.
-# From empirical observation:
+# Default: 3.2M blocks — fills the 64 GB SSD past GC onset + ~30 min
+# sustained GC under the default gc_thres_pcent=75 threshold.
+# From empirical observation (gc_thres_pcent=60, 2.45M blocks):
 #   - Blocks 0-2M import fast (~65 min), consuming ~42 of 98 flash lines
-#   - Blocks 2M-2.42M import slowly (state trie complexity), consuming ~16 more lines
-#   - GC triggers at ~60% utilization (58 lines consumed) ≈ block 2.42M
-#   - WAF climbs rapidly during GC (3.28 reached within 25 min)
-#   - Import speed drops to ~300 blocks/min during GC phase
-# 2.45M gives ~30 min of sustained GC after onset.
+#   - Blocks 2M-2.42M import slowly (state trie complexity)
+#   - GC triggers at ~60% utilization (58 lines) ≈ block 2.42M
+#   - WAF climbs rapidly during GC (4.74 non-FDP, 2.41 FDP)
+# With gc_thres_pcent=75 (default), GC onset is delayed to ~block 2.84M.
+# 3.2M gives ~30+ min of sustained GC after onset at the higher threshold.
 # Data is downloaded and imported in chunks to fit on the host disk.
-TOTAL_BLOCKS="${TOTAL_BLOCKS:-2450000}"
+TOTAL_BLOCKS="${TOTAL_BLOCKS:-3200000}"
 
 # Chunk size for download → convert → import pipeline.
 # Each chunk is independently downloaded as era1, converted to RLP,
